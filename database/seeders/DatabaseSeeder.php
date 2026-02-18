@@ -8,7 +8,7 @@ use App\Models\Kelas;
 use App\Models\Mapel;
 use App\Models\Siswa;
 use App\Models\Ortu;
-use App\Models\KepalaSekolah; 
+use App\Models\KepalaSekolah;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -46,12 +46,12 @@ class DatabaseSeeder extends Seeder
         // ==========================================================
         // 2. ADMIN & KEPALA SEKOLAH
         // ==========================================================
-        
+
         // Admin TU
         User::create([
             'name' => 'Administrator TU',
             'username' => 'admin',
-            'email' => 'admin@smkn3siakkecil.sch.id',
+            'email' => 'admin@smpn3siakkecil.sch.id',
             'password' => Hash::make('password'),
             'role' => 'admin',
         ]);
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
         // Kepala Sekolah (Rusiono, S.Pd)
         $userKepsek = User::create([
             'name' => 'Rusiono, S.Pd',
-            'username' => '197306041999031010', 
+            'username' => '197306041999031010',
             'password' => Hash::make('123456'),
             'role' => 'kepsek',
         ]);
@@ -114,13 +114,13 @@ class DatabaseSeeder extends Seeder
         // ==========================================================
         // 4. DATA KELAS
         // ==========================================================
-        
+
         $guruWalas1 = Guru::where('nama_lengkap', 'like', '%Sri Putri%')->first();
         $guruWalas2 = Guru::where('nama_lengkap', 'like', '%Suharni%')->first();
 
         // Update Role User Guru jadi 'walas'
-        if($guruWalas1) $guruWalas1->user->update(['role' => 'walas']);
-        if($guruWalas2) $guruWalas2->user->update(['role' => 'walas']);
+        if ($guruWalas1) $guruWalas1->user->update(['role' => 'walas']);
+        if ($guruWalas2) $guruWalas2->user->update(['role' => 'walas']);
 
         $kelas1 = Kelas::create([
             'nama_kelas' => 'IX-1',
@@ -137,13 +137,13 @@ class DatabaseSeeder extends Seeder
             'wali_kelas_id' => $guruWalas2?->id,
             'tahun_ajaran' => '2025/2026'
         ]);
-        
+
         $this->command->info('✅ Data Kelas Selesai!');
 
         // ==========================================================
         // 5. DATA SISWA & ORTU
         // ==========================================================
-        
+
         $dataSiswa = [
             ['nama' => 'Ahmad Muaraf', 'nisn' => '1403123110090001', 'jk' => 'L'],
             ['nama' => 'Aldi Rian Pratama', 'nisn' => '1304092311100001', 'jk' => 'L'],

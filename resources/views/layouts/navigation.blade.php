@@ -6,7 +6,7 @@
             <!-- Sisi Kiri: Breadcrumb Sederhana atau Info -->
             <div class="flex items-center">
                 <div class="hidden sm:flex flex-col">
-                    <span class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] leading-none">SiAbsen SMPN 3</span>
+                    <span class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] leading-none">E-Absensi SMPN 3</span>
                     <span class="text-xs font-bold text-emerald-600 mt-1 leading-none uppercase">{{ Auth::user()->role }} PANEL</span>
                 </div>
             </div>

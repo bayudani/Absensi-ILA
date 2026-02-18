@@ -100,7 +100,7 @@ class AbsensiIndex extends Component
                             $jadwal->mapel->nama_mapel,
                             $status,
                             Carbon::parse($this->tanggal)->translatedFormat('d F Y'),
-                            $catatanSiswa // Kirim Catatan ke sini
+                            $catatanSiswa 
                         );
                         
                         FonnteService::sendMessage($siswa->ortu->no_hp_wa, $pesan);
