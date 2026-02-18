@@ -47,7 +47,8 @@ class SiswaIndex extends Component
                 })
                 ->latest()
                 ->paginate(10),
-            'daftarKelas' => Kelas::orderBy('nama_kelas', 'asc')->get(),
+            // 'daftarKelas' => Kelas::orderBy('nama_kelas', 'asc')->get(),
+            'daftarKelas' => \App\Models\Kelas::orderBy('nama_kelas', 'asc')->get(),
         ];
     }
 

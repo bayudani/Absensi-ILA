@@ -17,100 +17,52 @@
         <div class="pt-6 pb-2 px-3">
             <span class="text-[10px] font-bold tracking-[0.2em] text-gray-300 uppercase">Master Data</span>
         </div>
-        
-        <!-- Data Kelas -->
         <li>
-            <a href="{{ route('admin.kelas.index') }}" 
-               class="flex items-center p-3 text-sm transition-all duration-200 group rounded-xl
-               {{ request()->routeIs('admin.kelas.*') 
-                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200' 
-                  : 'text-gray-600 hover:bg-emerald-50 hover:text-emerald-600' }}">
-                <i class="fas fa-school w-5 h-5 transition duration-75 {{ request()->routeIs('admin.kelas.*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
+            <a href="{{ route('admin.kelas.index') }}" class="flex items-center p-3 text-sm text-gray-600 transition-all duration-200 hover:bg-emerald-50 hover:text-emerald-600 group rounded-xl {{ request()->routeIs('admin.kelas.*') ? 'bg-emerald-600 text-white shadow-lg' : '' }}">
+                <i class="fas fa-school w-5 h-5 {{ request()->routeIs('admin.kelas.*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
                 <span class="ms-3 font-semibold">Data Kelas</span>
             </a>
         </li>
-
-        <!-- Data Siswa -->
         <li>
-            <a href="{{ route('admin.siswa.index') }}" 
-               class="flex items-center p-3 text-sm transition-all duration-200 group rounded-xl
-               {{ request()->routeIs('admin.siswa.*') 
-                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200' 
-                  : 'text-gray-600 hover:bg-emerald-50 hover:text-emerald-600' }}">
-                <i class="fas fa-users w-5 h-5 transition duration-75 {{ request()->routeIs('admin.siswa.*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
+            <a href="{{ route('admin.siswa.index') }}" class="flex items-center p-3 text-sm text-gray-600 transition-all duration-200 hover:bg-emerald-50 hover:text-emerald-600 group rounded-xl {{ request()->routeIs('admin.siswa.*') ? 'bg-emerald-600 text-white shadow-lg' : '' }}">
+                <i class="fas fa-users w-5 h-5 {{ request()->routeIs('admin.siswa.*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
                 <span class="ms-3 font-semibold">Data Siswa</span>
             </a>
         </li>
-
-        <!-- Data Guru -->
         <li>
-            <a href="{{ route('admin.guru.index') }}" 
-               class="flex items-center p-3 text-sm transition-all duration-200 group rounded-xl
-               {{ request()->routeIs('admin.guru.*') 
-                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200' 
-                  : 'text-gray-600 hover:bg-emerald-50 hover:text-emerald-600' }}">
-                <i class="fas fa-chalkboard-teacher w-5 h-5 transition duration-75 {{ request()->routeIs('admin.guru.*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
+            <a href="{{ route('admin.guru.index') }}" class="flex items-center p-3 text-sm text-gray-600 transition-all duration-200 hover:bg-emerald-50 hover:text-emerald-600 group rounded-xl {{ request()->routeIs('admin.guru.*') ? 'bg-emerald-600 text-white shadow-lg' : '' }}">
+                <i class="fas fa-chalkboard-teacher w-5 h-5 {{ request()->routeIs('admin.guru.*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
                 <span class="ms-3 font-semibold">Data Guru</span>
             </a>
         </li>
-
-        <!-- Mata Pelajaran -->
         <li>
-            <a href="{{ route('admin.mapel.index') }}" 
-               class="flex items-center p-3 text-sm transition-all duration-200 group rounded-xl
-               {{ request()->routeIs('admin.mapel.*') 
-                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200' 
-                  : 'text-gray-600 hover:bg-emerald-50 hover:text-emerald-600' }}">
-                <i class="fas fa-book w-5 h-5 transition duration-75 {{ request()->routeIs('admin.mapel.*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
+            <a href="{{ route('admin.mapel.index') }}" class="flex items-center p-3 text-sm text-gray-600 transition-all duration-200 hover:bg-emerald-50 hover:text-emerald-600 group rounded-xl {{ request()->routeIs('admin.mapel.*') ? 'bg-emerald-600 text-white shadow-lg' : '' }}">
+                <i class="fas fa-book w-5 h-5 {{ request()->routeIs('admin.mapel.*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
                 <span class="ms-3 font-semibold">Mata Pelajaran</span>
             </a>
         </li>
-
-        <div class="pt-6 pb-2 px-3">
-            <span class="text-[10px] font-bold tracking-[0.2em] text-gray-300 uppercase">Akademik</span>
-        </div>
-
-        <!-- Kelola Jadwal -->
         <li>
-            <a href="{{ route('admin.jadwal.index') }}" 
-               class="flex items-center p-3 text-sm transition-all duration-200 group rounded-xl
-               {{ request()->routeIs('admin.jadwal.*') 
-                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200' 
-                  : 'text-gray-600 hover:bg-emerald-50 hover:text-emerald-600' }}">
-                <i class="fas fa-calendar-alt w-5 h-5 transition duration-75 {{ request()->routeIs('admin.jadwal.*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
+            <a href="{{ route('admin.jadwal.index') }}" class="flex items-center p-3 text-sm text-gray-600 transition-all duration-200 hover:bg-emerald-50 hover:text-emerald-600 group rounded-xl {{ request()->routeIs('admin.jadwal.*') ? 'bg-emerald-600 text-white shadow-lg' : '' }}">
+                <i class="fas fa-calendar-alt w-5 h-5 {{ request()->routeIs('admin.jadwal.*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
                 <span class="ms-3 font-semibold">Kelola Jadwal</span>
             </a>
         </li>
-
-        <!-- User Management -->
         <li>
-            <a href="{{ route('admin.user.index') }}" 
-               class="flex items-center p-3 text-sm transition-all duration-200 group rounded-xl
-               {{ request()->routeIs('admin.user.*') 
-                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200' 
-                  : 'text-gray-600 hover:bg-emerald-50 hover:text-emerald-600' }}">
-                <i class="fas fa-user-cog w-5 h-5 transition duration-75 {{ request()->routeIs('admin.user.*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
+            <a href="{{ route('admin.user.index') }}" class="flex items-center p-3 text-sm text-gray-600 transition-all duration-200 hover:bg-emerald-50 hover:text-emerald-600 group rounded-xl {{ request()->routeIs('admin.user.*') ? 'bg-emerald-600 text-white shadow-lg' : '' }}">
+                <i class="fas fa-user-cog w-5 h-5 {{ request()->routeIs('admin.user.*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
                 <span class="ms-3 font-semibold">User Management</span>
             </a>
         </li>
-
-        <div class="pt-6 pb-2 px-3">
-            <span class="text-[10px] font-bold tracking-[0.2em] text-gray-300 uppercase">Laporan</span>
-        </div>
         <li>
-            <a href="{{ route('admin.rekap') }}" 
-               class="flex items-center p-3 text-sm transition-all duration-200 group rounded-xl
-               {{ request()->routeIs('admin.rekap*') 
-                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200' 
-                  : 'text-gray-600 hover:bg-emerald-50 hover:text-emerald-600' }}">
-                <i class="fas fa-clipboard-list w-5 h-5 transition duration-75 {{ request()->routeIs('admin.rekap*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
+            <a href="{{ route('admin.rekap') }}" class="flex items-center p-3 text-sm text-gray-600 transition-all duration-200 hover:bg-emerald-50 hover:text-emerald-600 group rounded-xl {{ request()->routeIs('admin.rekap*') ? 'bg-emerald-600 text-white shadow-lg' : '' }}">
+                <i class="fas fa-clipboard-list w-5 h-5 {{ request()->routeIs('admin.rekap*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
                 <span class="ms-3 font-semibold">Rekap Absensi Total</span>
             </a>
         </li>
     @endif
 
-    <!-- MENU KHUSUS GURU -->
-    @if(Auth::user()->role === 'guru')
+    <!-- MENU GURU (Muncul buat Guru DAN Walas) -->
+    @if(in_array(Auth::user()->role, ['guru', 'walas']))
         <div class="pt-6 pb-2 px-3">
             <span class="text-[10px] font-bold tracking-[0.2em] text-gray-300 uppercase">Kegiatan Belajar</span>
         </div>
@@ -146,7 +98,7 @@
         </li>
     @endif
 
-    <!-- MENU KHUSUS WALI KELAS -->
+    <!-- MENU KHUSUS WALI KELAS (Hanya Walas) -->
     @if(Auth::user()->role === 'walas')
         <div class="pt-6 pb-2 px-3">
             <span class="text-[10px] font-bold tracking-[0.2em] text-gray-300 uppercase">Wali Kelas</span>
