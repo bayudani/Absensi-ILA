@@ -21,9 +21,12 @@
                 placeholder="Cari Nama / NIP Guru...">
         </div>
 
-        <button wire:click="openModal()" class="w-full md:w-auto bg-emerald-600 text-white px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-emerald-700 shadow-lg shadow-emerald-100 transition-all active:scale-95">
-            <i class="fas fa-chalkboard-teacher"></i> TAMBAH GURU
-        </button>
+        {{-- LOGIC: Tombol Tambah Guru disembunyikan jika role adalah kepsek --}}
+        @if(Auth::user()->role !== 'kepsek')
+            <button wire:click="openModal()" class="w-full md:w-auto bg-emerald-600 text-white px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-emerald-700 shadow-lg shadow-emerald-100 transition-all active:scale-95">
+                <i class="fas fa-chalkboard-teacher"></i> TAMBAH GURU
+            </button>
+        @endif
     </div>
 
     <!-- Tabel Data Guru -->
@@ -40,7 +43,11 @@
                         <th class="p-6">Spesialisasi</th>
                         <th class="p-6">Kontak</th>
                         <th class="p-6">Status Akun</th>
-                        <th class="p-6 text-center">Aksi</th>
+                        
+                        {{-- LOGIC: Kolom Aksi disembunyikan jika role adalah kepsek --}}
+                        @if(Auth::user()->role !== 'kepsek')
+                            <th class="p-6 text-center">Aksi</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
@@ -73,20 +80,24 @@
                                     <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Aktif
                                 </span>
                             </td>
-                            <td class="p-6 text-center">
-                                <div class="flex justify-center gap-2">
-                                    <button wire:click="openModal({{ $guru->id }})" class="w-9 h-9 flex items-center justify-center text-blue-500 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-xl transition-all shadow-sm">
-                                        <i class="fas fa-pen text-xs"></i>
-                                    </button>
-                                    <button wire:click="delete({{ $guru->id }})" wire:confirm="Hapus guru ini? Akun login juga akan terhapus." class="w-9 h-9 flex items-center justify-center text-red-400 bg-red-50 hover:bg-red-500 hover:text-white rounded-xl transition-all shadow-sm">
-                                        <i class="fas fa-trash-alt text-xs"></i>
-                                    </button>
-                                </div>
-                            </td>
+                            
+                            {{-- LOGIC: Tombol Edit & Hapus disembunyikan jika role adalah kepsek --}}
+                            @if(Auth::user()->role !== 'kepsek')
+                                <td class="p-6 text-center">
+                                    <div class="flex justify-center gap-2">
+                                        <button wire:click="openModal({{ $guru->id }})" class="w-9 h-9 flex items-center justify-center text-blue-500 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-xl transition-all shadow-sm">
+                                            <i class="fas fa-pen text-xs"></i>
+                                        </button>
+                                        <button wire:click="delete({{ $guru->id }})" wire:confirm="Hapus guru ini? Akun login juga akan terhapus." class="w-9 h-9 flex items-center justify-center text-red-400 bg-red-50 hover:bg-red-500 hover:text-white rounded-xl transition-all shadow-sm">
+                                            <i class="fas fa-trash-alt text-xs"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            @endif
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="p-32 text-center text-gray-300 font-bold uppercase text-xs tracking-widest">Database Guru Kosong</td>
+                            <td colspan="{{ Auth::user()->role !== 'kepsek' ? '5' : '4' }}" class="p-32 text-center text-gray-300 font-bold uppercase text-xs tracking-widest">Database Guru Kosong</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -97,7 +108,7 @@
         </div>
     </div>
 
-    <!-- MODAL POPUP FORM -->
+    <!-- MODAL POPUP FORM (Hanya bisa dibuka jika bukan kepsek, tapi tetap kita render untuk admin) -->
     @if($isOpen)
         <div class="fixed inset-0 z-[70] flex items-center justify-center p-4">
             <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-md" wire:click="$set('isOpen', false)"></div>

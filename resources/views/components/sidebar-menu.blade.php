@@ -12,8 +12,9 @@
         </a>
     </li>
 
-    <!-- MENU KHUSUS ADMIN -->
-    @if(Auth::user()->role === 'admin')
+    <!-- MENU UTAMA (ADMIN & KEPSEK) -->
+    {{-- LOGIC: Di sini kuncinya, kita izinkan Admin DAN Kepsek melihat menu ini --}}
+    @if(in_array(Auth::user()->role, ['admin', 'kepsek']))
         <div class="pt-6 pb-2 px-3">
             <span class="text-[10px] font-bold tracking-[0.2em] text-gray-300 uppercase">Master Data</span>
         </div>
@@ -125,7 +126,7 @@
         </li>
     @endif
 
-    <!-- MENU KHUSUS KEPSEK -->
+    <!-- MENU KHUSUS KEPSEK (Dashboard/Monitoring Tambahan) -->
     @if(Auth::user()->role === 'kepsek')
         <div class="pt-6 pb-2 px-3">
             <span class="text-[10px] font-bold tracking-[0.2em] text-gray-300 uppercase">Pimpinan</span>

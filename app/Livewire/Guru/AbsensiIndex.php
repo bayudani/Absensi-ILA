@@ -54,7 +54,7 @@ class AbsensiIndex extends Component
             foreach ($siswas as $s) {
                 // Gunakan string key agar reaktivitas array di Livewire 3 lebih aman
                 $sid = (string) $s->id;
-                $this->absensiData[$sid] = $existing->has($s->id) ? $existing[$s->id]->status : 'H';
+                $this->absensiData[$sid] = $existing->has($s->id) ? $existing[$s->id]->status : '';
                 $this->catatanData[$sid] = $existing->has($s->id) ? $existing[$s->id]->keterangan : '';
             }
         }

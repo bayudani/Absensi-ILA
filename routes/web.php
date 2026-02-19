@@ -21,10 +21,12 @@ Route::get('/dashboard', function () {
 
 /**
 |--------------------------------------------------------------------------
-| GROUP ADMIN (Role: admin)
+| GROUP ADMIN & KEPSEK (Master Data)
 |--------------------------------------------------------------------------
+| LOGIC: Kita tambahkan 'kepsek' di sini agar mereka bisa akses URL-nya.
+| Pembatasan "View Only" (tidak bisa edit/hapus) ditangani di level View (Blade).
 */
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:admin,kepsek'])->prefix('admin')->name('admin.')->group(function () {
     
     // Master Data
     Route::get('/kelas', function() { return view('admin.kelas.index'); })->name('kelas.index');

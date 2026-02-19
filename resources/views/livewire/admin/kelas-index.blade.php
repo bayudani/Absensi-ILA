@@ -20,10 +20,13 @@
                 placeholder="Cari kelas...">
         </div>
 
-        <button wire:click="openModal()"
-            class="w-full md:w-auto bg-emerald-600 text-white px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-emerald-700 shadow-lg shadow-emerald-100 transition-all active:scale-95">
-            <i class="fas fa-plus-circle"></i> TAMBAH KELAS
-        </button>
+        {{-- LOGIC: Tombol Tambah Kelas disembunyikan jika role adalah kepsek --}}
+        @if(Auth::user()->role !== 'kepsek')
+            <button wire:click="openModal()"
+                class="w-full md:w-auto bg-emerald-600 text-white px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-emerald-700 shadow-lg shadow-emerald-100 transition-all active:scale-95">
+                <i class="fas fa-plus-circle"></i> TAMBAH KELAS
+            </button>
+        @endif
     </div>
 
     <!-- Tabel Data -->
@@ -42,7 +45,11 @@
                         <th class="p-6">Nama Kelas</th>
                         <th class="p-6">Wali Kelas</th>
                         <th class="p-6">Tahun Ajaran</th>
-                        <th class="p-6 text-center">Aksi</th>
+                        
+                        {{-- LOGIC: Kolom Aksi disembunyikan jika role adalah kepsek --}}
+                        @if(Auth::user()->role !== 'kepsek')
+                            <th class="p-6 text-center">Aksi</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
@@ -77,24 +84,28 @@
                             </td>
                             <td class="p-6 font-mono text-[10px] text-gray-500 font-bold">{{ $kelas->tahun_ajaran }}
                             </td>
-                            <td class="p-6">
-                                <div class="flex justify-center gap-2">
-                                    <button wire:click="openModal({{ $kelas->id }})"
-                                        class="p-2 text-blue-600 hover:bg-blue-50 rounded-xl transition">
-                                        <i class="fas fa-pen text-xs"></i>
-                                    </button>
-                                    <!-- Pakai wire:confirm biar gak ribet pake JS manual -->
-                                    <button wire:click="delete({{ $kelas->id }})"
-                                        wire:confirm="Hapus kelas ini secara permanen?"
-                                        class="p-2 text-red-400 hover:bg-red-50 hover:text-red-600 rounded-xl transition">
-                                        <i class="fas fa-trash-alt text-xs"></i>
-                                    </button>
-                                </div>
-                            </td>
+
+                            {{-- LOGIC: Tombol Edit & Hapus disembunyikan jika role adalah kepsek --}}
+                            @if(Auth::user()->role !== 'kepsek')
+                                <td class="p-6">
+                                    <div class="flex justify-center gap-2">
+                                        <button wire:click="openModal({{ $kelas->id }})"
+                                            class="p-2 text-blue-600 hover:bg-blue-50 rounded-xl transition">
+                                            <i class="fas fa-pen text-xs"></i>
+                                        </button>
+                                        <!-- Pakai wire:confirm biar gak ribet pake JS manual -->
+                                        <button wire:click="delete({{ $kelas->id }})"
+                                            wire:confirm="Hapus kelas ini secara permanen?"
+                                            class="p-2 text-red-400 hover:bg-red-50 hover:text-red-600 rounded-xl transition">
+                                            <i class="fas fa-trash-alt text-xs"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            @endif
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5"
+                            <td colspan="{{ Auth::user()->role !== 'kepsek' ? '5' : '4' }}"
                                 class="p-20 text-center text-gray-300 font-bold uppercase text-xs tracking-widest">
                                 Database Kosong</td>
                         </tr>
@@ -107,7 +118,7 @@
         </div>
     </div>
 
-    <!-- Modal Form -->
+    <!-- Modal Form (Hidden triggernya buat Kepsek) -->
     @if ($isOpen)
         <div class="fixed inset-0 z-[70] flex items-center justify-center p-4">
             <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-md" wire:click="$set('isOpen', false)"></div>

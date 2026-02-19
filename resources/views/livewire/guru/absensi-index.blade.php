@@ -85,22 +85,55 @@
                         <td class="p-6 text-center font-mono text-xs text-gray-400">{{ $index + 1 }}</td>
                         <td class="p-6 font-black text-gray-800 text-sm">{{ $s->nama_lengkap }}</td>
                         <td class="p-6">
-                            <div class="flex items-center justify-center gap-2">
-                                @foreach(['H' => 'emerald', 'S' => 'yellow', 'I' => 'blue', 'A' => 'red'] as $key => $color)
-                                    <label class="cursor-pointer">
-                                        <input type="radio" wire:model="absensiData.{{ $s->id }}" name="status_{{ $s->id }}" value="{{ $key }}" class="hidden peer">
-                                        <div class="w-10 h-10 flex items-center justify-center rounded-xl border-2 border-gray-100 bg-gray-50 font-black text-xs text-gray-400 transition-all 
-                                            peer-checked:border-{{ $color }}-500 peer-checked:bg-{{ $color }}-600 peer-checked:text-white peer-checked:shadow-lg peer-checked:shadow-{{ $color }}-100">
-                                            {{ $key }}
-                                        </div>
-                                    </label>
-                                @endforeach
+                            {{-- LOGIC WARNA FIX: Ditulis manual agar Tailwind mendeteksi class-nya --}}
+                            <div class="flex items-center justify-center gap-3">
+                                
+                                <!-- HADIR (H) - Emerald -->
+                                <label class="cursor-pointer relative group">
+                                    <input type="radio" wire:model="absensiData.{{ $s->id }}" name="status_{{ $s->id }}" value="H" class="hidden peer">
+                                    <div class="w-10 h-10 flex items-center justify-center rounded-xl border-2 border-gray-100 bg-gray-50 font-black text-xs text-gray-400 transition-all duration-200 
+                                        peer-checked:border-emerald-500 peer-checked:bg-emerald-500 peer-checked:text-white peer-checked:shadow-lg peer-checked:shadow-emerald-200 peer-checked:scale-110 hover:bg-emerald-50">
+                                        H
+                                    </div>
+                                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-[9px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">Hadir</span>
+                                </label>
+
+                                <!-- SAKIT (S) - Yellow/Orange -->
+                                <label class="cursor-pointer relative group">
+                                    <input type="radio" wire:model="absensiData.{{ $s->id }}" name="status_{{ $s->id }}" value="S" class="hidden peer">
+                                    <div class="w-10 h-10 flex items-center justify-center rounded-xl border-2 border-gray-100 bg-gray-50 font-black text-xs text-gray-400 transition-all duration-200 
+                                        peer-checked:border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-white peer-checked:shadow-lg peer-checked:shadow-yellow-200 peer-checked:scale-110 hover:bg-yellow-50">
+                                        S
+                                    </div>
+                                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-[9px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">Sakit</span>
+                                </label>
+
+                                <!-- IZIN (I) - Blue -->
+                                <label class="cursor-pointer relative group">
+                                    <input type="radio" wire:model="absensiData.{{ $s->id }}" name="status_{{ $s->id }}" value="I" class="hidden peer">
+                                    <div class="w-10 h-10 flex items-center justify-center rounded-xl border-2 border-gray-100 bg-gray-50 font-black text-xs text-gray-400 transition-all duration-200 
+                                        peer-checked:border-blue-500 peer-checked:bg-blue-500 peer-checked:text-white peer-checked:shadow-lg peer-checked:shadow-blue-200 peer-checked:scale-110 hover:bg-blue-50">
+                                        I
+                                    </div>
+                                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-[9px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">Izin</span>
+                                </label>
+
+                                <!-- ALPHA (A) - Red -->
+                                <label class="cursor-pointer relative group">
+                                    <input type="radio" wire:model="absensiData.{{ $s->id }}" name="status_{{ $s->id }}" value="A" class="hidden peer">
+                                    <div class="w-10 h-10 flex items-center justify-center rounded-xl border-2 border-gray-100 bg-gray-50 font-black text-xs text-gray-400 transition-all duration-200 
+                                        peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white peer-checked:shadow-lg peer-checked:shadow-red-200 peer-checked:scale-110 hover:bg-red-50">
+                                        A
+                                    </div>
+                                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-[9px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">Alpha</span>
+                                </label>
+
                             </div>
                         </td>
                         <td class="p-6">
                             <input type="text" wire:model="catatanData.{{ $s->id }}" 
-                                class="w-full px-4 py-2 text-xs rounded-xl border-gray-100 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-50 text-sm font-bold outline-none transition-all"
-                                placeholder="Ketik catatan di sini...">
+                                class="w-full px-4 py-2 text-xs rounded-xl border-gray-100 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-50 text-sm font-bold outline-none transition-all placeholder:font-normal"
+                                placeholder="Ketik catatan (opsional)...">
                         </td>
                     </tr>
                     @empty

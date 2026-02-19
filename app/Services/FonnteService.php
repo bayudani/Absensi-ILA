@@ -16,7 +16,7 @@ class FonnteService
             ])->post('https://api.fonnte.com/send', [
                 'target' => $target,
                 'message' => $message,
-                'countryCode' => '62',
+                'countryCode' => '62', // Optional jika target sudah format 62
             ]);
 
             return $response->json();
@@ -38,7 +38,7 @@ class FonnteService
 
         $msg = "*NOTIFIKASI ABSENSI SMPN 3 SIAK KECIL*\n\n";
         $msg .= "Yth. Orang Tua/Wali,\n";
-        $msg .= "Menginfokan kehadiran anak Anda pada:\n\n";
+        $msg .= "Menginfokan kehadiran putra/i Anda pada:\n\n";
         $msg .= "Nama: *" . $namaSiswa . "*\n";
         $msg .= "Mapel: *" . $mapel . "*\n";
         $msg .= "Tanggal: " . $tanggal . "\n";
@@ -49,7 +49,17 @@ class FonnteService
             $msg .= "Catatan: _" . $catatan . "_\n";
         }
 
-        $msg .= "\nTerima kasih atas perhatiannya.\n";
+        // ---  INFORMASI BOT ---
+        $msg .= "\n--------------------------------\n";
+        $msg .= "💡 *INFO FITUR OTOMATIS*\n";
+        $msg .= "Bapak/Ibu sekarang bisa memantau kehadiran anak secara mandiri dengan membalas pesan ini.\n\n";
+        $msg .= "Ketik perintah berikut:\n";
+        $msg .= "👉 *CEK [NISN]* : Cek absen hari ini\n";
+        $msg .= "👉 *REKAP [NISN]* : Cek rekap bulanan\n";
+        $msg .= "_(Contoh: CEK 1234567890)_\n";
+        $msg .= "--------------------------------\n\n";
+
+        $msg .= "Terima kasih atas perhatiannya.\n";
         $msg .= "-- Sistem Informasi Absensi Terpadu --";
 
         return $msg;
