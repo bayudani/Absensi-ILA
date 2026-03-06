@@ -111,7 +111,7 @@
                   ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200' 
                   : 'text-gray-600 hover:bg-emerald-50 hover:text-emerald-600' }}">
                 <i class="fas fa-users w-5 h-5 transition duration-75 {{ request()->routeIs('walas.siswa*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
-                <span class="ms-3 font-semibold">Data Siswa Binaan</span>
+                <span class="ms-3 font-semibold">Data Siswa Kelas</span>
             </a>
         </li>
         <li>

@@ -66,7 +66,7 @@
                             </td>
                             <td class="p-6">
                                 <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg font-bold text-[10px] uppercase border border-blue-100">
-                                    {{ $guru->mapel_utama ?? 'Belum Diset' }}
+                                    {{ $guru->spesialisasi ?? 'Belum Diset' }}
                                 </span>
                             </td>
                             <td class="p-6">
@@ -151,7 +151,7 @@
                             </div>
                             <div>
                                 <label class="block text-[10px] font-black text-gray-400 uppercase mb-2 tracking-widest pl-1">Mata Pelajaran Utama</label>
-                                <input wire:model="mapel_utama" type="text" placeholder="Cth: Matematika" class="w-full px-5 py-4 rounded-2xl border-gray-100 bg-gray-50 focus:bg-white text-sm font-bold outline-none">
+                                <input wire:model="spesialisasi" type="text" placeholder="Cth: Matematika" class="w-full px-5 py-4 rounded-2xl border-gray-100 bg-gray-50 focus:bg-white text-sm font-bold outline-none">
                             </div>
                         </div>
 

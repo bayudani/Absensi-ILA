@@ -62,12 +62,42 @@ class AbsensiIndex extends Component
 
     public function save()
     {
-        if (!$this->jadwal_id || empty($this->absensiData)) {
-            $this->dispatch('notify', message: 'Gagal! Data tidak ditemukan.');
+        // 1. Validasi kalau jadwal belum dipilih
+        if (!$this->jadwal_id) {
+            $this->dispatch('notify', message: 'Waduh, pilih jadwalnya dulu ya kak!', type: 'error');
             return;
         }
 
         $jadwal = Jadwal::with(['kelas', 'mapel'])->find($this->jadwal_id);
+        if (!$jadwal) {
+            $this->dispatch('notify', message: 'Jadwal tidak ditemukan!', type: 'error');
+            return;
+        }
+
+        // 2. Cek apakah ada siswa yang ke-skip belum diabsen
+        $siswas = Siswa::where('kelas_id', $jadwal->kelas_id)->orderBy('nama_lengkap', 'asc')->get();
+        $siswaBelumDiabsen = [];
+
+        foreach ($siswas as $s) {
+            $sid = (string) $s->id;
+            if (!isset($this->absensiData[$sid]) || $this->absensiData[$sid] === '') {
+                $siswaBelumDiabsen[] = $s->nama_lengkap;
+            }
+        }
+
+        // Kalau ada yang bolong, kasih alert error!
+        if (count($siswaBelumDiabsen) > 0) {
+            $jumlah = count($siswaBelumDiabsen);
+            // Spill 2 nama pertama biar guru gampang nyarinya
+            $spillNama = collect($siswaBelumDiabsen)->take(2)->implode(', ');
+            $tambahan = $jumlah > 2 ? " dan " . ($jumlah - 2) . " lainnya" : "";
+
+            $pesanError = "Oops! Ada {$jumlah} siswa belum diabsen ({$spillNama}{$tambahan}). Cek lagi yuk!";
+            
+            $this->dispatch('notify', message: $pesanError, type: 'error');
+            return; // Stop proses save
+        }
+
         $jumlahTerkirim = 0;
 
         try {
@@ -77,7 +107,7 @@ class AbsensiIndex extends Component
                 // Ambil catatan untuk siswa ini
                 $catatanSiswa = $this->catatanData[$siswa_id] ?? null;
 
-                // 1. Mapping dan simpan ke database
+                // 3. Mapping dan simpan ke database
                 Absensi::updateOrCreate(
                     [
                         'jadwal_id' => $this->jadwal_id,
@@ -90,11 +120,10 @@ class AbsensiIndex extends Component
                     ]
                 );
 
-                // 2. Notifikasi WA via Fonnte (Hanya untuk yang tidak hadir)
+                // 4. Notifikasi WA via Fonnte
                 if (in_array($status, ['H','S', 'I', 'A'])) {
                     $siswa = Siswa::with('ortu')->find($siswa_id);
                     if ($siswa && $siswa->ortu && $siswa->ortu->no_hp_wa) {
-                        // Kirim Catatan ke Service Message
                         $pesan = FonnteService::createAbsensiMessage(
                             $siswa->nama_lengkap,
                             $jadwal->mapel->nama_mapel,
@@ -111,14 +140,15 @@ class AbsensiIndex extends Component
 
             DB::commit();
             
-            $notifMsg = "Absensi Berhasil Disimpan!";
+            $notifMsg = "Yeay! Absensi Berhasil Disimpan!";
             if($jumlahTerkirim > 0) $notifMsg .= " & {$jumlahTerkirim} WA Notifikasi Terkirim.";
             
-            $this->dispatch('notify', message: $notifMsg);
+            // Kirim notifikasi sukses!
+            $this->dispatch('notify', message: $notifMsg, type: 'success');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->dispatch('notify', message: 'Error: ' . $e->getMessage());
+            $this->dispatch('notify', message: 'Error Server: ' . $e->getMessage(), type: 'error');
         }
     }
 
