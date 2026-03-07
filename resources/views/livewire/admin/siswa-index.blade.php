@@ -41,8 +41,8 @@
 
     <!-- Container Tabel -->
     <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden relative">
-        <div wire:loading
-            class="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-10 flex items-center justify-center">
+        <div wire:loading.flex
+            class="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-10 items-center justify-center">
             <div class="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
 
@@ -146,7 +146,7 @@
 
     <!-- MODAL POPUP FORM (Trigger hidden for Kepsek) -->
     @if ($isOpen)
-        <div class="fixed inset-0 z-[70] flex items-center justify-center p-4">
+        <div class="fixed inset-0 z-[70] flex items-center justify-center p-4 flex-1">
             <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-md" wire:click="$set('isOpen', false)"></div>
 
             <div
@@ -158,7 +158,7 @@
                                 {{ $editingSiswaId ? 'Ubah Profil' : 'Registrasi' }} Siswa
                             </h3>
                             <p class="text-[10px] font-bold text-emerald-500 uppercase mt-2 tracking-[0.3em]">
-                                E-AbsensiDatabase v1.0</p>
+                                E-Absensi Database</p>
                         </div>
                         <button wire:click="$set('isOpen', false)"
                             class="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-50 text-gray-400 hover:bg-red-50 hover:text-red-500 transition-all active:scale-90">
@@ -265,7 +265,7 @@
                                     WhatsApp Notifikasi (Aktif)</label>
                                 <div class="relative">
                                     <span
-                                        class="absolute inset-y-0 left-0 flex items-center pl-5 text-emerald-500 font-black">62</span>
+                                        class="absolute inset-y-0 left-0 flex items-center pl-5 text-emerald-500 font-black"></span>
                                     <input wire:model="no_hp_wa" type="text" placeholder="81234567xxx"
                                         class="w-full pl-12 pr-5 py-4 rounded-2xl border-gray-100 bg-gray-50 focus:bg-white focus:ring-4 focus:ring-emerald-50 text-sm font-bold transition-all outline-none">
                                 </div>
