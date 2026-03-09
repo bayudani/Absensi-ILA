@@ -8,17 +8,25 @@ use App\Models\Siswa;
 use App\Models\Absensi;
 use App\Services\FonnteService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class FonnteWebhookController extends Controller
 {
     public function handle(Request $request)
     {
-        // 1. Tangkap data dari Fonnte
-        // Sender biasanya format 628xxx atau 08xxx tergantung setting device
+        // (Opsional) Pasang CCTV ke log buat mantau data masuk pas testing
+        // Log::info('WEBHOOK MASUK DARI FONNTE:', $request->all());
+
+        // 🚨 JURUS ANTI-GRUP: Kalau pesannya dari grup, langsung cuekin aja
+        if ($request->input('isgroup') === true || str_ends_with($request->input('sender', ''), '@g.us')) {
+            return response()->json(['status' => true, 'message' => 'Ignored group message']);
+        }
+
+        // 1. Tangkap data dari Fonnte (Sekarang dijamin ini nomor HP Japri)
         $sender = $request->input('sender'); 
         $message = trim($request->input('message')); 
         
-        // Normalisasi pesan (huruf besar semua)
+        // Normalisasi pesan (huruf besar semua) biar gampang dicek
         $msgUpper = strtoupper($message);
 
         // 2. Logika Bot
@@ -28,6 +36,7 @@ class FonnteWebhookController extends Controller
         elseif (str_starts_with($msgUpper, 'CEK')) {
             // Format: CEK [NISN] (Contoh: CEK 123456)
             $nisn = trim(str_replace('CEK', '', $msgUpper));
+            
             // Validasi input NISN agar tidak kosong
             if(empty($nisn)) {
                 FonnteService::sendMessage($sender, "⚠️ Format salah. Ketik: *CEK [NISN]*\nContoh: _CEK 1234567890_");
@@ -38,6 +47,7 @@ class FonnteWebhookController extends Controller
         elseif (str_starts_with($msgUpper, 'REKAP')) {
             // Format: REKAP [NISN] (Contoh: REKAP 123456)
             $nisn = trim(str_replace('REKAP', '', $msgUpper));
+            
             if(empty($nisn)) {
                 FonnteService::sendMessage($sender, "⚠️ Format salah. Ketik: *REKAP [NISN]*\nContoh: _REKAP 1234567890_");
             } else {
@@ -49,7 +59,7 @@ class FonnteWebhookController extends Controller
             // $this->sendMenu($sender);
         }
 
-        // Return json kosong biar Fonnte tau request sukses
+        // Return json kosong biar Fonnte tau request sukses dan ga nge-spam ngirim ulang
         return response()->json(['status' => true]);
     }
 

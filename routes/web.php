@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\FonnteWebhookController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -103,4 +104,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// foonte
+Route::post('/fonnte-webhook', [FonnteWebhookController::class, 'handle']);
 require __DIR__.'/auth.php';

@@ -39,7 +39,7 @@ class JadwalIndex extends Component
             'daftarKelas' => Kelas::all(),
             'daftarMapel' => Mapel::all(),
             'daftarGuru' => Guru::all(),
-            'listHari' => ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
+            'listHari' => ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu','minggu'],
         ];
     }
 

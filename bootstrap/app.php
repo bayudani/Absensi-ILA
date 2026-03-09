@@ -12,8 +12,17 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Alias middleware bawaan lo (biarin aja)
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
+        ]);
+
+        // 👇 WAJIB DI VERCEL: Biar Laravel sadar dia di balik proxy HTTPS
+        $middleware->trustProxies(at: '*');
+
+        // 👇 WAJIB BUAT FONNTE: Bypass sistem keamanan CSRF buat URL ini
+        $middleware->validateCsrfTokens(except: [
+            'fonnte-webhook', // Nama rutenya harus sama persis kayak di web.php
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
