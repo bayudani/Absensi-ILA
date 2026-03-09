@@ -23,11 +23,11 @@ class JadwalIndex extends Component
         return [
             'daftarJadwal' => Jadwal::with(['kelas', 'mapel'])
                 ->where('guru_id', $user->guru->id)
-                ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu','Minggu')")
+                ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
                 ->orderBy('jam_mulai')
                 ->get()
                 ->groupBy('hari'), // Dikelompokkan per hari agar enak dibaca
-            'listHari' => ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu','Minggu']
+            'listHari' => ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
         ];
     }
 

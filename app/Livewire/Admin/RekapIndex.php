@@ -6,8 +6,7 @@ use Livewire\Component;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\Absensi;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use App\Models\KepalaSekolah; 
 
 class RekapIndex extends Component
 {
@@ -24,17 +23,16 @@ class RekapIndex extends Component
     }
 
     /**
-     * Menghitung rekapitulasi data absensi per siswa
+     * Helper buat ngambil data (dipisah biar bisa dipake view & export)
      */
-    public function with(): array
+    private function fetchRekapData()
     {
         $querySiswa = Siswa::with('kelas')
             ->when($this->filter_kelas, function($q) {
                 $q->where('kelas_id', $this->filter_kelas);
             });
 
-        $rekapData = $querySiswa->get()->map(function ($siswa) {
-            // Ambil log absensi siswa pada bulan & tahun terpilih
+        return $querySiswa->get()->map(function ($siswa) {
             $logs = Absensi::where('siswa_id', $siswa->id)
                 ->whereMonth('tanggal', $this->filter_bulan)
                 ->whereYear('tanggal', $this->filter_tahun)
@@ -57,10 +55,48 @@ class RekapIndex extends Component
                 'persen' => $total > 0 ? round(($h / $total) * 100, 1) : 0
             ];
         });
+    }
 
+    /**
+     * Action Export Excel via Stream (Aman banget buat Vercel)
+     */
+    public function exportExcel()
+    {
+        $data = $this->fetchRekapData();
+        $fileName = 'Rekap_Absensi_' . $this->filter_bulan . '_' . $this->filter_tahun . '.csv';
+
+        return response()->streamDownload(function () use ($data) {
+            $file = fopen('php://output', 'w');
+            
+            // Tulis Header Kolom Excel
+            fputcsv($file, ['Nama Siswa', 'NISN', 'Kelas', 'Hadir', 'Izin', 'Sakit', 'Alpha', 'Persentase Efektif (%)']);
+
+            // Looping isi datanya
+            foreach ($data as $row) {
+                fputcsv($file, [
+                    $row['nama'],
+                    // 🪄 JURUS ANTI-SCIENTIFIC EXCEL: Kasih karakter Tab di depannya biar Excel baca sebagai Text
+                    "\t" . $row['nisn'],
+                    $row['kelas'],
+                    $row['h'],
+                    $row['i'],
+                    $row['s'],
+                    $row['a'],
+                    $row['persen'] . '%'
+                ]);
+            }
+            
+            fclose($file);
+        }, $fileName);
+    }
+
+    public function with(): array
+    {
         return [
-            'daftarRekap' => $rekapData,
+            'daftarRekap' => $this->fetchRekapData(),
             'daftarKelas' => Kelas::all(),
+            // 👇 Ambil data Kepala Sekolah buat ditampilin di Print PDF
+            'kepsek' => KepalaSekolah::first(), 
             'listBulan' => [
                 '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April',
                 '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus',
