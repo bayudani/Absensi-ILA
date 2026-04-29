@@ -62,7 +62,7 @@ class MapelIndex extends Component
         $this->validate([
             'kode_mapel' => 'required|string|max:20|unique:mapel,kode_mapel,' . $this->editingMapelId,
             'nama_mapel' => 'required|string|max:255',
-            'kkm' => 'required|numeric|min:0|max:100',
+            // 'kkm' => 'required|numeric|min:0|max:100',
         ]);
 
         Mapel::updateOrCreate(
@@ -70,7 +70,7 @@ class MapelIndex extends Component
             [
                 'kode_mapel' => strtoupper($this->kode_mapel),
                 'nama_mapel' => $this->nama_mapel,
-                'kkm' => $this->kkm,
+                // 'kkm' => $this->kkm,
             ]
         );
 
