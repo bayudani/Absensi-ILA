@@ -12,14 +12,26 @@
 
     <!-- Header Control -->
     <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-        <div class="w-full md:w-80">
-            <select wire:model.live="filter_kelas" class="w-full px-5 py-3 rounded-2xl border-gray-100 bg-white shadow-sm focus:ring-2 focus:ring-emerald-500 font-bold text-sm outline-none transition-all">
-                <option value="">Semua Kelas (Filter)</option>
-                @foreach($daftarKelas as $k)
-                    <option value="{{ $k->id }}">{{ $k->nama_kelas }}</option>
-                @endforeach
-            </select>
+        <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+            <div class="w-full sm:w-64">
+                <select wire:model.live="filter_kelas" class="w-full px-5 py-3 rounded-2xl border-gray-100 bg-white shadow-sm focus:ring-2 focus:ring-emerald-500 font-bold text-sm outline-none transition-all">
+                    <option value="">Semua Kelas (Filter)</option>
+                    @foreach($daftarKelas as $k)
+                        <option value="{{ $k->id }}">{{ $k->nama_kelas }}</option>
+                    @endforeach
+                </select>
+            </div>
+            
+            <div class="w-full sm:w-48">
+                <select wire:model.live="filter_hari" class="w-full px-5 py-3 rounded-2xl border-gray-100 bg-white shadow-sm focus:ring-2 focus:ring-emerald-500 font-bold text-sm outline-none transition-all">
+                    <option value="">Semua Hari</option>
+                    @foreach($listHari as $h)
+                        <option value="{{ $h }}">{{ $h }}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
+
 
         {{-- LOGIC: Tombol Tambah Jadwal disembunyikan jika role adalah kepsek --}}
         @if(Auth::user()->role !== 'kepsek')
@@ -44,7 +56,6 @@
                         <th class="p-6">Guru Pengampu</th>
                         <th class="p-6">Kelas</th>
                         
-                        {{-- LOGIC: Kolom Aksi disembunyikan jika role adalah kepsek --}}
                         @if(Auth::user()->role !== 'kepsek')
                             <th class="p-6 text-center">Aksi</th>
                         @endif

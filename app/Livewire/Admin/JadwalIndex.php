@@ -23,6 +23,9 @@ class JadwalIndex extends Component
     #[Url(history: true)]
     public $filter_kelas = '';
     
+    #[Url(history: true)]
+    public $filter_hari = '';
+    
     public $editingJadwalId = null;
     public $isOpen = false;
 
@@ -33,7 +36,11 @@ class JadwalIndex extends Component
                 ->when($this->filter_kelas, function($q) {
                     $q->where('kelas_id', $this->filter_kelas);
                 })
-                ->orderBy('hari')
+                ->when($this->filter_hari, function($q) {
+                    $q->where('hari', $this->filter_hari);
+                })
+                // Sorting Hari Custom: Senin dulu baru sampai Sabtu
+                ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
                 ->orderBy('jam_mulai')
                 ->paginate(15),
             'daftarKelas' => Kelas::all(),
@@ -102,6 +109,7 @@ class JadwalIndex extends Component
     }
 
     public function updatingFilterKelas() { $this->resetPage(); }
+    public function updatingFilterHari() { $this->resetPage(); }
 
     public function render()
     {
