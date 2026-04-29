@@ -123,11 +123,11 @@
                             @error('nama_mapel') <span class="text-red-500 text-[10px] font-black mt-1 block italic">{{ $message }}</span> @enderror
                         </div>
 
-                        <div>
+                        {{-- <div>
                             <label class="block text-[10px] font-black text-gray-400 uppercase mb-2 tracking-widest pl-1">KKM (Kriteria Ketuntasan Minimal)</label>
                             <input wire:model="kkm" type="number" class="w-full px-5 py-4 rounded-2xl border-gray-100 bg-gray-50 focus:bg-white focus:ring-4 focus:ring-emerald-50 text-sm font-bold transition-all outline-none">
                             @error('kkm') <span class="text-red-500 text-[10px] font-black mt-1 block italic">{{ $message }}</span> @enderror
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="mt-10 flex gap-4">

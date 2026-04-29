@@ -14,7 +14,7 @@ class MapelIndex extends Component
     use WithPagination;
 
     // --- FORM STATE ---
-    public $kode_mapel, $nama_mapel, $kkm = 75;
+    public $kode_mapel, $nama_mapel;
 
     // --- UI STATE ---
     #[Url(history: true)]
@@ -51,7 +51,7 @@ class MapelIndex extends Component
             $mapel = Mapel::findOrFail($id);
             $this->kode_mapel = $mapel->kode_mapel;
             $this->nama_mapel = $mapel->nama_mapel;
-            $this->kkm = $mapel->kkm;
+            // $this->kkm = $mapel->kkm;
         }
 
         $this->isOpen = true;
