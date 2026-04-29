@@ -59,14 +59,14 @@
                 <span class="ms-3 font-semibold">Kelola Jadwal</span>
             </a>
         </li>
-        <li>
+        {{-- <li>
             <a href="{{ route('admin.user.index') }}"
                 class="flex items-center p-3 text-sm text-gray-600 transition-all duration-200 hover:bg-emerald-50 hover:text-emerald-600 group rounded-xl {{ request()->routeIs('admin.user.*') ? 'bg-emerald-600 text-white shadow-lg' : '' }}">
                 <i
                     class="fas fa-user-cog w-5 h-5 {{ request()->routeIs('admin.user.*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
                 <span class="ms-3 font-semibold">User Management</span>
             </a>
-        </li>
+        </li> --}}
         <li>
             <a href="{{ route('admin.rekap') }}"
                 class="flex items-center p-3 text-sm text-gray-600 transition-all duration-200 hover:bg-emerald-50 hover:text-emerald-600 group rounded-xl {{ request()->routeIs('admin.rekap*') ? 'bg-emerald-600 text-white shadow-lg' : '' }}">
