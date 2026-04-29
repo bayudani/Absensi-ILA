@@ -41,7 +41,7 @@
                     <tr class="bg-gray-50/50 text-gray-400 text-[10px] uppercase font-black tracking-[0.2em] border-b border-gray-50">
                         <th class="p-6">Kode Mapel</th>
                         <th class="p-6">Nama Mata Pelajaran</th>
-                        <th class="p-6 text-center">KKM</th>
+                        {{-- <th class="p-6 text-center">KKM</th> --}}
                         
                         {{-- LOGIC: Kolom Aksi disembunyikan jika role adalah kepsek --}}
                         @if(Auth::user()->role !== 'kepsek')
@@ -60,9 +60,9 @@
                             <td class="p-6 font-bold text-gray-800 text-sm">
                                 {{ $mapel->nama_mapel }}
                             </td>
-                            <td class="p-6 text-center font-black text-emerald-600 bg-emerald-50/20">
+                            {{-- <td class="p-6 text-center font-black text-emerald-600 bg-emerald-50/20">
                                 {{ $mapel->kkm }}
-                            </td>
+                            </td> --}}
                             
                             {{-- LOGIC: Tombol Edit & Hapus disembunyikan jika role adalah kepsek --}}
                             @if(Auth::user()->role !== 'kepsek')
