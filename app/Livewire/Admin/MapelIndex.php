@@ -38,7 +38,7 @@ class MapelIndex extends Component
 
     public function resetFields()
     {
-        $this->reset(['kode_mapel', 'nama_mapel', 'kkm', 'editingMapelId']);
+        $this->reset(['kode_mapel', 'nama_mapel', 'editingMapelId']);
         $this->resetValidation();
     }
 
