@@ -50,14 +50,14 @@ class FonnteService
         }
 
         // ---  INFORMASI BOT ---
-        $msg .= "\n--------------------------------\n";
-        $msg .= "💡 *INFO FITUR OTOMATIS*\n";
-        $msg .= "Bapak/Ibu sekarang bisa memantau kehadiran anak secara mandiri dengan membalas pesan ini.\n\n";
-        $msg .= "Ketik perintah berikut:\n";
-        $msg .= "👉 *CEK [NISN]* : Cek absen hari ini\n";
-        $msg .= "👉 *REKAP [NISN]* : Cek rekap bulanan\n";
-        $msg .= "_(Contoh: CEK 1234567890)_\n";
-        $msg .= "--------------------------------\n\n";
+        // $msg .= "\n--------------------------------\n";
+        // $msg .= "💡 *INFO FITUR OTOMATIS*\n";
+        // $msg .= "Bapak/Ibu sekarang bisa memantau kehadiran anak secara mandiri dengan membalas pesan ini.\n\n";
+        // $msg .= "Ketik perintah berikut:\n";
+        // $msg .= "👉 *CEK [NISN]* : Cek absen hari ini\n";
+        // $msg .= "👉 *REKAP [NISN]* : Cek rekap bulanan\n";
+        // $msg .= "_(Contoh: CEK 1234567890)_\n";
+        // $msg .= "--------------------------------\n\n";
 
         $msg .= "Terima kasih atas perhatiannya.\n";
         $msg .= "-- Sistem Informasi Absensi Terpadu --";
