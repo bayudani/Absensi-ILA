@@ -93,6 +93,12 @@ class KelasIndex extends Component
 
         $namaKelas = $this->tingkat . '-' . $this->lokal;
 
+        // Simpan wali_kelas_id lama sebelum di-update (untuk rollback role nantinya)
+        $oldWaliKelasId = null;
+        if ($this->editingKelasId) {
+            $oldWaliKelasId = Kelas::find($this->editingKelasId)?->wali_kelas_id;
+        }
+
         Kelas::updateOrCreate(
             ['id' => $this->editingKelasId],
             [
@@ -103,6 +109,25 @@ class KelasIndex extends Component
                 'tahun_ajaran' => $this->tahun_ajaran,
             ]
         );
+
+        // Sync role: wali kelas baru mendapat role 'walas'
+        if ($this->wali_kelas_id) {
+            $guru = Guru::with('user')->find($this->wali_kelas_id);
+            if ($guru && $guru->user && $guru->user->role !== 'walas') {
+                $guru->user->update(['role' => 'walas']);
+            }
+        }
+
+        // Sync role: wali kelas lama (jika diganti) dikembalikan ke 'guru' jika tidak jadi wali kelas lagi
+        if ($oldWaliKelasId && $oldWaliKelasId != $this->wali_kelas_id) {
+            $masihWaliKelas = Kelas::where('wali_kelas_id', $oldWaliKelasId)->exists();
+            if (!$masihWaliKelas) {
+                $guru = Guru::with('user')->find($oldWaliKelasId);
+                if ($guru && $guru->user && $guru->user->role !== 'guru') {
+                    $guru->user->update(['role' => 'guru']);
+                }
+            }
+        }
 
         $this->isOpen = false;
         
@@ -117,7 +142,22 @@ class KelasIndex extends Component
      */
     public function delete($id)
     {
-        Kelas::find($id)->delete();
+        $kelas = Kelas::find($id);
+        $oldWaliKelasId = $kelas?->wali_kelas_id;
+
+        $kelas->delete();
+
+        // Kembalikan role ke 'guru' jika tidak menjadi wali kelas di kelas lain
+        if ($oldWaliKelasId) {
+            $masihWaliKelas = Kelas::where('wali_kelas_id', $oldWaliKelasId)->exists();
+            if (!$masihWaliKelas) {
+                $guru = Guru::with('user')->find($oldWaliKelasId);
+                if ($guru && $guru->user && $guru->user->role !== 'guru') {
+                    $guru->user->update(['role' => 'guru']);
+                }
+            }
+        }
+
         $this->dispatch('notify', message: 'Data kelas telah dihapus.');
     }
 
