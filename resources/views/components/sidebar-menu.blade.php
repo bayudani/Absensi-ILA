@@ -115,6 +115,17 @@
                 <span class="ms-3 font-semibold">Rekap Kelas</span>
             </a>
         </li>
+        <li>
+            <a href="{{ route('guru.laporan.siswa') }}"
+                class="flex items-center p-3 text-sm transition-all duration-200 group rounded-xl
+               {{ request()->routeIs('guru.laporan.siswa*')
+                   ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200'
+                   : 'text-gray-600 hover:bg-emerald-50 hover:text-emerald-600' }}">
+                <i
+                    class="fas fa-file-pdf w-5 h-5 transition duration-75 {{ request()->routeIs('guru.laporan.siswa*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
+                <span class="ms-3 font-semibold">Laporan Siswa</span>
+            </a>
+        </li>
     @endif
 
     <!-- MENU KHUSUS WALI KELAS (Hanya Walas) -->

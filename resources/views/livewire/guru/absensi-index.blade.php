@@ -60,13 +60,20 @@
                 </div>
             </div>
             
-            <button wire:click="save" 
-                wire:loading.attr="disabled"
-                class="w-full md:w-auto bg-emerald-600 text-white px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-[0.2em] shadow-lg shadow-emerald-100 hover:bg-emerald-700 transition-all active:scale-95 disabled:opacity-50">
-                <i class="fas fa-save mr-2" wire:loading.remove wire:target="save"></i>
-                <i class="fas fa-spinner fa-spin mr-2" wire:loading wire:target="save"></i>
-                SIMPAN ABSENSI
-            </button>
+            <div class="flex gap-2">
+                <button wire:click="pilihSemuaHadir" 
+                    wire:loading.attr="disabled"
+                    class="w-full md:w-auto bg-amber-500 text-white px-5 py-3 rounded-2xl text-xs font-black uppercase tracking-[0.2em] shadow-lg shadow-amber-100 hover:bg-amber-600 transition-all active:scale-95 disabled:opacity-50">
+                    <i class="fas fa-check-double mr-2"></i> Semua Hadir
+                </button>
+                <button wire:click="save" 
+                    wire:loading.attr="disabled"
+                    class="w-full md:w-auto bg-emerald-600 text-white px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-[0.2em] shadow-lg shadow-emerald-100 hover:bg-emerald-700 transition-all active:scale-95 disabled:opacity-50">
+                    <i class="fas fa-save mr-2" wire:loading.remove wire:target="save"></i>
+                    <i class="fas fa-spinner fa-spin mr-2" wire:loading wire:target="save"></i>
+                    SIMPAN ABSENSI
+                </button>
+            </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -143,7 +150,10 @@
             </table>
         </div>
          @if($daftarSiswa->count() > 0)
-        <div class="p-8 bg-gray-50/50 border-t border-gray-100 flex justify-end">
+        <div class="p-8 bg-gray-50/50 border-t border-gray-100 flex justify-end gap-3">
+            <button wire:click="pilihSemuaHadir" class="bg-amber-500 text-white px-8 py-4 rounded-[1.5rem] text-xs font-black uppercase tracking-[0.2em] shadow-lg shadow-amber-100 hover:bg-amber-600 transition-all active:scale-95">
+                <i class="fas fa-check-double mr-2"></i> Semua Hadir
+            </button>
             <button wire:click="save" class="bg-emerald-600 text-white px-10 py-4 rounded-[1.5rem] text-xs font-black uppercase tracking-[0.2em] shadow-xl shadow-emerald-100 hover:bg-emerald-700 transition-all active:scale-95">
                 KIRIM ABSENSI HARI INI
             </button>

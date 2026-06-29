@@ -20,10 +20,17 @@ class AbsensiIndex extends Component
 
     public function mount($jadwal_id = null)
     {
-        $this->jadwal_id = $jadwal_id;
         $this->tanggal = Carbon::today()->toDateString();
-        
-        if ($this->jadwal_id) {
+        $hariIni = Carbon::now()->translatedFormat('l');
+
+        if ($jadwal_id) {
+            $jadwal = Jadwal::find($jadwal_id);
+            if ($jadwal && $jadwal->hari !== $hariIni) {
+                $this->dispatch('notify', message: 'Jadwal ini tidak untuk hari ini!', type: 'error');
+                $this->jadwal_id = null;
+                return;
+            }
+            $this->jadwal_id = $jadwal_id;
             $this->loadDataSiswa();
         }
     }
@@ -41,6 +48,12 @@ class AbsensiIndex extends Component
         if (!$this->jadwal_id) return;
 
         $jadwal = Jadwal::find($this->jadwal_id);
+        $hariIni = Carbon::now()->translatedFormat('l');
+        if ($jadwal && $jadwal->hari !== $hariIni) {
+            $this->dispatch('notify', message: 'Jadwal ini tidak untuk hari ini!', type: 'error');
+            $this->jadwal_id = null;
+            return;
+        }
         if ($jadwal) {
             $siswas = Siswa::where('kelas_id', $jadwal->kelas_id)
                 ->orderBy('nama_lengkap', 'asc')
@@ -58,6 +71,23 @@ class AbsensiIndex extends Component
                 $this->catatanData[$sid] = $existing->has($s->id) ? $existing[$s->id]->keterangan : '';
             }
         }
+    }
+
+    public function pilihSemuaHadir()
+    {
+        if (!$this->jadwal_id) return;
+        $jadwal = Jadwal::find($this->jadwal_id);
+        if (!$jadwal) return;
+
+        $siswas = Siswa::where('kelas_id', $jadwal->kelas_id)
+            ->orderBy('nama_lengkap', 'asc')
+            ->get();
+
+        foreach ($siswas as $s) {
+            $this->absensiData[(string) $s->id] = 'H';
+        }
+
+        $this->dispatch('notify', message: 'Semua siswa di-set Hadir!', type: 'success');
     }
 
     public function save()
@@ -161,11 +191,8 @@ class AbsensiIndex extends Component
         $jadwals = Jadwal::where('guru_id', $user->guru?->id)
             ->where('hari', $hariIni)
             ->with(['kelas', 'mapel'])
+            ->orderBy('jam_mulai')
             ->get();
-
-        if ($jadwals->isEmpty()) {
-            $jadwals = Jadwal::where('guru_id', $user->guru?->id)->with(['kelas', 'mapel'])->get();
-        }
 
         return [
             'jadwal' => $this->jadwal_id ? Jadwal::with(['kelas', 'mapel'])->find($this->jadwal_id) : null,

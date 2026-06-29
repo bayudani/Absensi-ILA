@@ -65,6 +65,11 @@ Route::middleware(['auth', 'role:guru,walas'])->prefix('guru')->name('guru.')->g
     Route::get('/rekap-absensi', function () {
         return view('guru.rekap.index');
     })->name('rekap');
+
+    // Laporan Absensi per Siswa per Mapel (PDF)
+    Route::get('/laporan-siswa', function () {
+        return view('guru.laporan.index');
+    })->name('laporan.siswa');
 });
 
 /**
