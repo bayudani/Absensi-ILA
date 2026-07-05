@@ -40,11 +40,11 @@
                 <div>
                     <div class="flex justify-between items-center mb-2 px-1">
                         <label for="password" class="block text-[10px] font-black text-gray-400 uppercase tracking-widest">Kata Sandi</label>
-                        @if (Route::has('password.request'))
+                        {{-- @if (Route::has('password.request'))
                             <a class="text-[10px] font-black text-emerald-600 uppercase tracking-widest hover:underline" href="{{ route('password.request') }}">
                                 Lupa?
                             </a>
-                        @endif
+                        @endif --}}
                     </div>
                     <div class="relative group" x-data="{ showPassword: false }">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-5 text-gray-300 group-focus-within:text-emerald-500 transition-colors">
