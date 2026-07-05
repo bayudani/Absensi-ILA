@@ -87,8 +87,15 @@ class KelasIndex extends Component
         $this->validate([
             'tingkat' => 'required',
             'lokal' => 'required|max:10',
-            'wali_kelas_id' => 'nullable|exists:gurus,id',
+            'wali_kelas_id' => 'required|exists:gurus,id',
             'tahun_ajaran' => 'required',
+        ], [
+            'tingkat.required' => 'Tingkat kelas harus dipilih!',
+            'lokal.required' => 'Lokal kelas harus diisi!',
+            'lokal.max' => 'Lokal kelas maksimal 10 karakter!',
+            'wali_kelas_id.required' => 'Wali kelas harus dipilih!',
+            'wali_kelas_id.exists' => 'Wali kelas tidak ditemukan!',
+            'tahun_ajaran.required' => 'Tahun ajaran harus diisi!',
         ]);
 
         $namaKelas = $this->tingkat . '-' . $this->lokal;

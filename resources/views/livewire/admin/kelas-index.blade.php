@@ -163,14 +163,17 @@
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Wali Kelas</label>
+                        <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Wali Kelas <span class="text-red-500">*</span></label>
                         <select wire:model="wali_kelas_id"
                             class="w-full px-5 py-4 rounded-2xl border-gray-100 bg-gray-50 focus:bg-white text-sm font-bold outline-none transition-all">
-                            <option value="">-- Tanpa Wali Kelas --</option>
+                            <option value="">-- Pilih Wali Kelas --</option>
                             @foreach ($daftarGuru as $guru)
                                 <option value="{{ $guru->id }}">{{ $guru->nama_lengkap }}</option>
                             @endforeach
                         </select>
+                        @error('wali_kelas_id')
+                            <span class="text-red-500 text-[10px] font-black mt-2 block italic">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="bg-blue-50/50 p-4 rounded-3xl border border-blue-100 flex justify-between items-center">

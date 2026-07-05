@@ -46,13 +46,16 @@
                             </a>
                         @endif
                     </div>
-                    <div class="relative group">
+                    <div class="relative group" x-data="{ showPassword: false }">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-5 text-gray-300 group-focus-within:text-emerald-500 transition-colors">
                             <i class="fas fa-lock"></i>
                         </span>
-                        <input id="password" name="password" type="password" required autocomplete="current-password"
-                            class="w-full pl-12 pr-5 py-4 rounded-2xl border-gray-100 bg-gray-50 text-sm font-bold text-gray-700 placeholder-gray-300 focus:bg-white focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 transition-all outline-none"
+                        <input id="password" name="password" :type="showPassword ? 'text' : 'password'" required autocomplete="current-password"
+                            class="w-full pl-12 pr-14 py-4 rounded-2xl border-gray-100 bg-gray-50 text-sm font-bold text-gray-700 placeholder-gray-300 focus:bg-white focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 transition-all outline-none"
                             placeholder="••••••••">
+                        <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 hover:text-emerald-600 transition-colors">
+                            <i class="fas" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                        </button>
                     </div>
                     <x-input-error :messages="$errors->get('password')" class="mt-2 text-[10px] font-bold italic" />
                 </div>
