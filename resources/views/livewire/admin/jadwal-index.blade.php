@@ -83,7 +83,12 @@
                                     <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-black text-[10px]">
                                         {{ strtoupper(substr($j->guru->nama_lengkap, 0, 1)) }}
                                     </div>
-                                    <span class="font-medium text-gray-700 text-xs">{{ $j->guru->nama_lengkap }}</span>
+                                    <div class="flex flex-col">
+                                        <span class="font-medium text-gray-700 text-xs">{{ $j->guru->nama_lengkap }}</span>
+                                        @if($j->guru->spesialisasi)
+                                            <span class="text-[9px] text-gray-400 font-bold mt-0.5">{{ $j->guru->spesialisasi }}</span>
+                                        @endif
+                                    </div>
                                 </div>
                             </td>
                             <td class="p-6">
@@ -180,7 +185,7 @@
                             <label class="block text-[10px] font-black text-gray-400 uppercase mb-2 tracking-widest pl-1">Guru Pengajar</label>
                             <select wire:model="guru_id" class="w-full px-5 py-4 rounded-2xl border-gray-100 bg-gray-50 focus:bg-white focus:ring-4 focus:ring-emerald-50 text-sm font-bold outline-none">
                                 <option value="">-- Pilih --</option>
-                                @foreach($daftarGuru as $g) <option value="{{ $g->id }}">{{ $g->nama_lengkap }}</option> @endforeach
+                                @foreach($daftarGuru as $g) <option value="{{ $g->id }}">{{ $g->nama_lengkap }} {{ $g->spesialisasi ? '- ' . $g->spesialisasi : '' }}</option> @endforeach
                             </select>
                         </div>
                     </div>
