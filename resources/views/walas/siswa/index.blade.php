@@ -6,7 +6,7 @@
                 <i class="fas fa-calendar-day text-white text-sm"></i>
             </div>
             <h2 class="font-black text-2xl text-gray-800 tracking-tighter leading-tight">
-                {{ __('Siswa Binaan') }}
+                {{ __('Siswa Perwalian') }}
             </h2>
         </div>
     </x-slot>

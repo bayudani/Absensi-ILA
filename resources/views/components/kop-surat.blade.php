@@ -17,7 +17,7 @@
                 SMPN 3 Siak Kecil
             </h1>
             <p class="text-xs sm:text-sm text-black mt-2 font-medium print-text-black leading-snug">
-                Jalan Jend. Sudirman Rt.10/Rw. 04 Desa Koto Raja Kode Pos 28771
+                Jalan Jend. Sudirman Rt.10/Rw. 04 Desa Kota Raja Kode Pos 28771
             </p>
             <p class="text-xs sm:text-sm text-black mt-0.5 font-medium print-text-black leading-snug">
                 e-mail: smpn3siak_kecil@yahoo.com

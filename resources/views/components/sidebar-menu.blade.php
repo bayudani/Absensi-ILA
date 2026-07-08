@@ -56,7 +56,11 @@
                 class="flex items-center p-3 text-sm text-gray-600 transition-all duration-200 hover:bg-emerald-50 hover:text-emerald-600 group rounded-xl {{ request()->routeIs('admin.jadwal.*') ? 'bg-emerald-600 text-white shadow-lg' : '' }}">
                 <i
                     class="fas fa-calendar-alt w-5 h-5 {{ request()->routeIs('admin.jadwal.*') ? 'text-white' : 'text-gray-400 group-hover:text-emerald-600' }}"></i>
-                <span class="ms-3 font-semibold">Kelola Jadwal</span>
+                @if (Auth::user()->role === 'kepsek')
+                    <span class="ms-3 font-semibold">Lihat Jadwal</span>
+                @else
+                    <span class="ms-3 font-semibold">Kelola Jadwal</span>
+                @endif
             </a>
         </li>
         {{-- <li>
@@ -158,7 +162,7 @@
     @endif
 
     <!-- MENU KHUSUS KEPSEK (Dashboard/Monitoring Tambahan) -->
-    @if (Auth::user()->role === 'kepsek')
+    {{-- @if (Auth::user()->role === 'kepsek')
         <div class="pt-6 pb-2 px-3">
             <span class="text-[10px] font-bold tracking-[0.2em] text-gray-300 uppercase">Pimpinan</span>
         </div>
@@ -173,5 +177,5 @@
                 <span class="ms-3 font-semibold">Monitoring Sekolah</span>
             </a>
         </li>
-    @endif
+    @endif --}}
 </ul>

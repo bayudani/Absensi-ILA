@@ -8,7 +8,7 @@
                 <h2 class="font-black text-2xl text-gray-800 tracking-tighter leading-tight">
                     {{ __('Laporan Absensi Bulanan') }}
                 </h2>
-                <p class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Kelas Binaan Wali Kelas</p>
+                <p class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Kelas perwalian Wali Kelas</p>
             </div>
         </div>
     </x-slot>

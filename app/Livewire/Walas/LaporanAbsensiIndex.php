@@ -237,6 +237,7 @@ class LaporanAbsensiIndex extends Component
                     $logs = Absensi::where('siswa_id', $siswa->id)
                         ->whereMonth('tanggal', $this->filter_bulan)
                         ->whereYear('tanggal', $this->filter_tahun)
+                        ->with('jadwal.mapel')
                         ->get();
 
                     $h = $logs->where('status', 'H')->count();
@@ -245,11 +246,20 @@ class LaporanAbsensiIndex extends Component
                     $a = $logs->where('status', 'A')->count();
                     $total = $logs->count();
 
+                    $perMapel = $logs->groupBy(fn($item) => $item->jadwal->mapel->nama_mapel ?? 'Unknown')
+                        ->map(fn($items) => [
+                            'h' => $items->where('status', 'H')->count(),
+                            's' => $items->where('status', 'S')->count(),
+                            'i' => $items->where('status', 'I')->count(),
+                            'a' => $items->where('status', 'A')->count(),
+                        ]);
+
                     return [
                         'nama' => $siswa->nama_lengkap,
                         'nisn' => $siswa->nisn,
                         'h' => $h, 's' => $s, 'i' => $i, 'a' => $a,
-                        'persen' => $total > 0 ? round(($h / $total) * 100, 1) : 0
+                        'persen' => $total > 0 ? round(($h / $total) * 100, 1) : 0,
+                        'perMapel' => $perMapel,
                     ];
                 });
         }
