@@ -85,7 +85,7 @@ new class extends Component {
             $siswaIds = $kelas ? Siswa::where('kelas_id', $kelas->id)->pluck('id') : collect();
             
             $stats = [
-                'card1_label' => 'Siswa Binaan',
+                'card1_label' => 'Siswa Perwalian',
                 'card1_val'   => $siswaIds->count(),
                 'card1_icon'  => 'fas fa-users',
                 'card1_color' => 'emerald',
