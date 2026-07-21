@@ -195,63 +195,69 @@
                                 <th class="p-4 lg:p-6 text-center print-text-black">Persentase</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-100 font-sans" x-data="{ expanded: null }">
-                            @if($rekapData->count() > 0)
-                                @foreach($rekapData as $index => $data)
-                                    <tr class="hover:bg-emerald-50/20 transition-colors group cursor-pointer" @click="expanded = (expanded === {{ $index }}) ? null : {{ $index }}">
-                                        <td class="p-4 lg:p-6 text-center no-print">
-                                            <i class="fas text-gray-400 transition-transform" :class="expanded === {{ $index }} ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
-                                        </td>
-                                        <td class="p-4 lg:p-6">
-                                            <div class="flex flex-col leading-none">
-                                                <span class="font-black text-gray-800 text-sm group-hover:text-emerald-700 transition-colors print-text-black">{{ $data['nama'] }}</span>
-                                                <span class="text-[10px] text-gray-400 font-mono mt-1.5 uppercase print-text-black">NISN: {{ $data['nisn'] }}</span>
-                                            </div>
-                                        </td>
-                                        <td class="p-4 lg:p-6 text-center font-black text-gray-700 print-text-black">{{ $data['h'] }}</td>
-                                        <td class="p-4 lg:p-6 text-center font-black text-gray-700 print-text-black">{{ $data['i'] }}</td>
-                                        <td class="p-4 lg:p-6 text-center font-black text-gray-700 print-text-black">{{ $data['s'] }}</td>
-                                        <td class="p-4 lg:p-6 text-center font-black {{ $data['a'] > 0 ? 'text-red-600' : 'text-gray-700' }} print-text-black">{{ $data['a'] }}</td>
-                                        <td class="p-4 lg:p-6 text-center">
-                                            <span class="px-3 py-1 rounded-xl font-black text-xs print-text-black
-                                                {{ $data['persen'] >= 90 ? 'bg-green-100 text-green-700' : ($data['persen'] >= 75 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700') }}">
-                                                {{ $data['persen'] }}%
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr x-show="expanded === {{ $index }}" x-cloak>
-                                        <td colspan="7" class="p-0">
-                                            <div class="px-6 lg:px-10 py-4 border-t border-gray-100">
-                                                <table class="w-full text-xs">
-                                                    <thead>
-                                                        <tr class="text-gray-500 font-black uppercase tracking-widest text-[9px] border-b border-gray-200">
-                                                            <th class="py-2 pr-4 text-left print-text-black">Mata Pelajaran</th>
-                                                            <th class="py-2 px-3 text-center text-green-600 print-text-black">H</th>
-                                                            <th class="py-2 px-3 text-center text-blue-600 print-text-black">I</th>
-                                                            <th class="py-2 px-3 text-center text-yellow-600 print-text-black">S</th>
-                                                            <th class="py-2 px-3 text-center text-red-600 print-text-black">A</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach($data['perMapel'] as $mapel => $stat)
-                                                        <tr class="border-b border-gray-50 last:border-0">
-                                                            <td class="py-2.5 pr-4 font-bold text-gray-700 print-text-black">{{ $mapel }}</td>
-                                                            <td class="py-2.5 px-3 text-center font-black text-green-700 print-text-black">{{ $stat['h'] }}</td>
-                                                            <td class="py-2.5 px-3 text-center font-black text-blue-700 print-text-black">{{ $stat['i'] }}</td>
-                                                            <td class="py-2.5 px-3 text-center font-black text-yellow-700 print-text-black">{{ $stat['s'] }}</td>
-                                                            <td class="py-2.5 px-3 text-center font-black {{ $stat['a'] > 0 ? 'text-red-600' : 'text-gray-400' }} print-text-black">{{ $stat['a'] }}</td>
-                                                        </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else
+                        @if($rekapData->count() > 0)
+                            @foreach($rekapData as $data)
+                            <tbody class="border-b border-gray-100 last:border-0 font-sans" x-data="{ open: false }">
+                                <tr class="hover:bg-emerald-50/20 transition-colors group cursor-pointer" @click="open = !open">
+                                    <td class="p-4 lg:p-6 text-center no-print">
+                                        <i class="fas text-gray-400 transition-transform" :class="open ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+                                    </td>
+                                    <td class="p-4 lg:p-6">
+                                        <div class="flex flex-col leading-none">
+                                            <span class="font-black text-gray-800 text-sm group-hover:text-emerald-700 transition-colors print-text-black">{{ $data['nama'] }}</span>
+                                            <span class="text-[10px] text-gray-400 font-mono mt-1.5 uppercase print-text-black">NISN: {{ $data['nisn'] }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 lg:p-6 text-center font-black text-gray-700 print-text-black">{{ $data['h'] }}</td>
+                                    <td class="p-4 lg:p-6 text-center font-black text-gray-700 print-text-black">{{ $data['i'] }}</td>
+                                    <td class="p-4 lg:p-6 text-center font-black text-gray-700 print-text-black">{{ $data['s'] }}</td>
+                                    <td class="p-4 lg:p-6 text-center font-black {{ $data['a'] > 0 ? 'text-red-600' : 'text-gray-700' }} print-text-black">{{ $data['a'] }}</td>
+                                    <td class="p-4 lg:p-6 text-center">
+                                        <span class="px-3 py-1 rounded-xl font-black text-xs print-text-black
+                                            {{ $data['persen'] >= 90 ? 'bg-green-100 text-green-700' : ($data['persen'] >= 75 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700') }}">
+                                            {{ $data['persen'] }}%
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr x-show="open" x-cloak>
+                                    <td colspan="7" class="p-0">
+                                        <div class="px-6 lg:px-10 py-4 border-t border-gray-100">
+                                            <table class="w-full text-xs">
+                                                <thead>
+                                                    <tr class="text-gray-500 font-black uppercase tracking-widest text-[9px] border-b border-gray-200">
+                                                        <th class="py-2 pr-4 text-left print-text-black">Mata Pelajaran</th>
+                                                        <th class="py-2 px-3 text-center text-green-600 print-text-black">H</th>
+                                                        <th class="py-2 px-3 text-center text-blue-600 print-text-black">I</th>
+                                                        <th class="py-2 px-3 text-center text-yellow-600 print-text-black">S</th>
+                                                        <th class="py-2 px-3 text-center text-red-600 print-text-black">A</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse($data['perMapel'] as $mapel => $stat)
+                                                    <tr class="border-b border-gray-50 last:border-0">
+                                                        <td class="py-2.5 pr-4 font-bold text-gray-700 print-text-black">{{ $mapel }}</td>
+                                                        <td class="py-2.5 px-3 text-center font-black text-green-700 print-text-black">{{ $stat['h'] }}</td>
+                                                        <td class="py-2.5 px-3 text-center font-black text-blue-700 print-text-black">{{ $stat['i'] }}</td>
+                                                        <td class="py-2.5 px-3 text-center font-black text-yellow-700 print-text-black">{{ $stat['s'] }}</td>
+                                                        <td class="py-2.5 px-3 text-center font-black {{ $stat['a'] > 0 ? 'text-red-600' : 'text-gray-400' }} print-text-black">{{ $stat['a'] }}</td>
+                                                    </tr>
+                                                    @empty
+                                                    <tr>
+                                                        <td colspan="5" class="py-4 text-center text-gray-400 italic text-[11px] print-text-black">Belum ada data absensi untuk siswa ini pada periode tersebut</td>
+                                                    </tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            @endforeach
+                        @else
+                            <tbody class="font-sans">
                                 <tr><td colspan="8" class="p-32 text-center text-gray-300 font-black uppercase text-xs tracking-widest opacity-30 no-print">Belum ada data absensi di periode ini</td></tr>
-                            @endif
-                        </tbody>
+                            </tbody>
+                        @endif
                     </table>
                 @endif
             </div>
