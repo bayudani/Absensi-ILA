@@ -33,7 +33,7 @@
     <!-- Filter Card -->
     <div class="bg-white p-6 rounded-[2.5rem] border border-emerald-100 shadow-sm no-print">
         <div class="flex flex-col lg:flex-row justify-between items-center gap-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full lg:w-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 w-full lg:w-auto">
                 <!-- Pilih Kelas -->
                 <div>
                     <label class="text-[10px] font-black text-gray-400 uppercase mb-2 block pl-1">Kelas Anda</label>
@@ -41,6 +41,17 @@
                         <option value="">-- Pilih Kelas --</option>
                         @foreach($daftarKelas as $k)
                             <option value="{{ $k->id }}">Kelas {{ $k->nama_kelas }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Pilih Mapel -->
+                <div>
+                    <label class="text-[10px] font-black text-gray-400 uppercase mb-2 block pl-1">Mata Pelajaran</label>
+                    <select wire:model.live="filter_mapel" class="w-full px-5 py-3 rounded-2xl border-gray-100 bg-gray-50 focus:bg-white focus:ring-4 focus:ring-emerald-50 text-sm font-bold transition-all outline-none">
+                        <option value="">-- Pilih Mapel --</option>
+                        @foreach($daftarMapel as $m)
+                            <option value="{{ $m->id }}">{{ $m->nama_mapel }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -102,9 +113,17 @@
                     $kls = collect($daftarKelas)->firstWhere('id', $filter_kelas);
                     $namaKelas = $kls ? $kls->nama_kelas : '';
                 }
+                $namaMapel = '';
+                if($filter_mapel) {
+                    $mpl = collect($daftarMapel)->firstWhere('id', $filter_mapel);
+                    $namaMapel = $mpl ? $mpl->nama_mapel : '';
+                }
             @endphp
             @if($namaKelas)
                 <p class="font-medium print-text-black">Kelas: {{ $namaKelas }}</p>
+            @endif
+            @if($namaMapel)
+                <p class="font-medium print-text-black">Mata Pelajaran: {{ $namaMapel }}</p>
             @endif
         </div>
 
@@ -156,7 +175,7 @@
                                 <div class="flex flex-col items-center opacity-20">
                                     <i class="fas fa-clipboard-list text-6xl mb-4"></i>
                                     <p class="font-black text-xs uppercase tracking-widest text-gray-500">
-                                        {{ $filter_kelas ? 'Belum ada data absensi di bulan ini.' : 'Pilih kelas terlebih dahulu.' }}
+                                        {{ $filter_kelas && $filter_mapel ? 'Belum ada data absensi di bulan ini.' : ($filter_kelas ? 'Pilih mata pelajaran terlebih dahulu.' : 'Pilih kelas terlebih dahulu.') }}
                                     </p>
                                 </div>
                             </td>

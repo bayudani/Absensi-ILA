@@ -17,7 +17,7 @@ class GuruIndex extends Component
     use WithPagination;
 
     // --- FORM STATE ---
-    public $nip, $nama_lengkap, $no_hp, $jenis_kelamin = 'L', $alamat, $spesialisasi;
+    public $nip, $nama_lengkap, $no_hp, $jenis_kelamin = 'L', $alamat;
     public $password; // Password opsional saat edit
 
     // --- UI STATE ---
@@ -43,7 +43,7 @@ class GuruIndex extends Component
 
     public function resetFields()
     {
-        $this->reset(['nip', 'nama_lengkap', 'no_hp', 'jenis_kelamin', 'alamat', 'spesialisasi', 'password', 'editingGuruId']);
+        $this->reset(['nip', 'nama_lengkap', 'no_hp', 'jenis_kelamin', 'alamat', 'password', 'editingGuruId']);
         $this->resetValidation();
     }
 
@@ -59,7 +59,6 @@ class GuruIndex extends Component
             $this->no_hp = $guru->no_hp;
             $this->jenis_kelamin = $guru->jenis_kelamin;
             $this->alamat = $guru->alamat;
-            $this->spesialisasi = $guru->spesialisasi;
         }
 
         $this->isOpen = true;
@@ -105,7 +104,6 @@ class GuruIndex extends Component
                     'no_hp' => $this->no_hp,
                     'jenis_kelamin' => $this->jenis_kelamin,
                     'alamat' => $this->alamat,
-                    'spesialisasi' => $this->spesialisasi,
                 ]
             );
         });

@@ -40,7 +40,6 @@
                 <thead>
                     <tr class="bg-gray-50/50 text-gray-400 text-[10px] uppercase font-black tracking-[0.2em] border-b border-gray-50">
                         <th class="p-6">Informasi Guru</th>
-                        <th class="p-6">Spesialisasi</th>
                         <th class="p-6">Kontak</th>
                         <th class="p-6">Status Akun</th>
                         
@@ -63,11 +62,6 @@
                                         <span class="text-[10px] text-gray-400 font-mono mt-1.5 uppercase">NIP: {{ $guru->nip }} | {{ $guru->jenis_kelamin }}</span>
                                     </div>
                                 </div>
-                            </td>
-                            <td class="p-6">
-                                <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg font-bold text-[10px] uppercase border border-blue-100">
-                                    {{ $guru->spesialisasi ?? 'Belum Diset' }}
-                                </span>
                             </td>
                             <td class="p-6">
                                 <div class="flex flex-col text-xs">
@@ -97,7 +91,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ Auth::user()->role !== 'kepsek' ? '5' : '4' }}" class="p-32 text-center text-gray-300 font-bold uppercase text-xs tracking-widest">Database Guru Kosong</td>
+                            <td colspan="{{ Auth::user()->role !== 'kepsek' ? '4' : '3' }}" class="p-32 text-center text-gray-300 font-bold uppercase text-xs tracking-widest">Database Guru Kosong</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -150,14 +144,9 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-[10px] font-black text-gray-400 uppercase mb-2 tracking-widest pl-1">Mata Pelajaran Utama</label>
-                                <input wire:model="spesialisasi" type="text" placeholder="Cth: Matematika" class="w-full px-5 py-4 rounded-2xl border-gray-100 bg-gray-50 focus:bg-white text-sm font-bold outline-none">
+                                <label class="block text-[10px] font-black text-gray-400 uppercase mb-2 tracking-widest pl-1">No. Handphone (Aktif)</label>
+                                <input wire:model="no_hp" type="text" class="w-full px-5 py-4 rounded-2xl border-gray-100 bg-gray-50 focus:bg-white text-sm font-bold outline-none">
                             </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-[10px] font-black text-gray-400 uppercase mb-2 tracking-widest pl-1">No. Handphone (Aktif)</label>
-                            <input wire:model="no_hp" type="text" class="w-full px-5 py-4 rounded-2xl border-gray-100 bg-gray-50 focus:bg-white text-sm font-bold outline-none">
                         </div>
 
                         <div>

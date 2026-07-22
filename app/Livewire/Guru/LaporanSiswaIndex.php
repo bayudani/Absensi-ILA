@@ -133,18 +133,9 @@ class LaporanSiswaIndex extends Component
         $daftarSiswa = collect();
 
         if ($this->kelas_id) {
-            $kelas = Kelas::find($this->kelas_id);
-            $isHomeroom = $kelas && $kelas->wali_kelas_id === $guruId && $user->role === 'walas';
-
-            if ($isHomeroom) {
-                $daftarMapel = Mapel::whereHas('jadwals', function($q) use ($guruId) {
-                    $q->where('kelas_id', $this->kelas_id);
-                })->get();
-            } else {
-                $daftarMapel = Mapel::whereHas('jadwals', function($q) use ($guruId) {
-                    $q->where('guru_id', $guruId)->where('kelas_id', $this->kelas_id);
-                })->get();
-            }
+            $daftarMapel = Mapel::whereHas('jadwals', function($q) use ($guruId) {
+                $q->where('guru_id', $guruId)->where('kelas_id', $this->kelas_id);
+            })->get();
 
             $daftarSiswa = Siswa::where('kelas_id', $this->kelas_id)
                 ->orderBy('nama_lengkap', 'asc')

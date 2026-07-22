@@ -7,6 +7,7 @@ use App\Models\Jadwal;
 use App\Models\Absensi;
 use App\Models\Siswa;
 use App\Models\Kelas;
+use App\Models\Mapel;
 use App\Models\KepalaSekolah; 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ class RekapKelasIndex extends Component
 {
     // --- UI STATE ---
     public $filter_kelas = '';
+    public $filter_mapel = '';
     public $filter_bulan;
     public $filter_tahun;
 
@@ -28,6 +30,28 @@ class RekapKelasIndex extends Component
         $kelasPertama = Jadwal::where('guru_id', $guruId)->first();
         if ($kelasPertama) {
             $this->filter_kelas = $kelasPertama->kelas_id;
+            $this->autoSelectMapel();
+        }
+    }
+
+    public function updatedFilterKelas()
+    {
+        $this->filter_mapel = '';
+        $this->autoSelectMapel();
+    }
+
+    private function autoSelectMapel()
+    {
+        if (!$this->filter_kelas) return;
+
+        $guruId = Auth::user()->guru->id;
+        $mapels = Jadwal::where('guru_id', $guruId)
+            ->where('kelas_id', $this->filter_kelas)
+            ->pluck('mapel_id')
+            ->unique();
+
+        if ($mapels->count() === 1) {
+            $this->filter_mapel = $mapels->first();
         }
     }
 
@@ -36,7 +60,7 @@ class RekapKelasIndex extends Component
      */
     private function fetchRekapData()
     {
-        if (!$this->filter_kelas) {
+        if (!$this->filter_kelas || !$this->filter_mapel) {
             return collect();
         }
 
@@ -45,13 +69,13 @@ class RekapKelasIndex extends Component
             ->get();
 
         return $siswas->map(function ($siswa) {
-            // Ambil semua log absensi siswa ini di bulan/tahun terpilih 
-            // khusus untuk mata pelajaran yang diajar guru ini
             $logs = Absensi::where('siswa_id', $siswa->id)
                 ->whereMonth('tanggal', $this->filter_bulan)
                 ->whereYear('tanggal', $this->filter_tahun)
                 ->whereHas('jadwal', function($q) {
-                    $q->where('guru_id', Auth::user()->guru->id);
+                    $q->where('guru_id', Auth::user()->guru->id)
+                      ->where('kelas_id', $this->filter_kelas)
+                      ->where('mapel_id', $this->filter_mapel);
                 })
                 ->get();
 
@@ -81,11 +105,15 @@ class RekapKelasIndex extends Component
         $data = $this->fetchRekapData();
         
         $namaKelas = '';
+        $namaMapel = '';
         if($this->filter_kelas) {
             $namaKelas = Kelas::find($this->filter_kelas)->nama_kelas ?? 'Unknown';
         }
+        if($this->filter_mapel) {
+            $namaMapel = Mapel::find($this->filter_mapel)->nama_mapel ?? 'Unknown';
+        }
         
-        $fileName = 'Rekap_Kelas_' . ($namaKelas ? $namaKelas . '_' : '') . $this->filter_bulan . '_' . $this->filter_tahun . '.csv';
+        $fileName = 'Rekap_Kelas_' . ($namaKelas ? str_replace(' ', '_', $namaKelas) . '_' : '') . ($namaMapel ? str_replace(' ', '_', $namaMapel) . '_' : '') . $this->filter_bulan . '_' . $this->filter_tahun . '.csv';
 
         return response()->streamDownload(function () use ($data) {
             $file = fopen('php://output', 'w');
@@ -126,7 +154,7 @@ class RekapKelasIndex extends Component
         return [
             'daftarRekap' => $this->fetchRekapData(),
             'daftarKelas' => $daftarKelas,
-            // 👇 Ambil data Kepala Sekolah buat ditampilin di Print PDF
+            'daftarMapel' => $this->getMapelByKelas(),
             'kepsek' => KepalaSekolah::first(), 
             'listBulan' => [
                 '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April',
@@ -134,6 +162,19 @@ class RekapKelasIndex extends Component
                 '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'
             ]
         ];
+    }
+
+    private function getMapelByKelas()
+    {
+        if (!$this->filter_kelas) return collect();
+
+        $guruId = Auth::user()->guru->id;
+        $mapelIds = Jadwal::where('guru_id', $guruId)
+            ->where('kelas_id', $this->filter_kelas)
+            ->pluck('mapel_id')
+            ->unique();
+
+        return Mapel::whereIn('id', $mapelIds)->get();
     }
 
     public function render()
