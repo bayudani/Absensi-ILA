@@ -121,7 +121,7 @@
         </div>
     </div>
 
-    <!-- MODAL POPUP FORM (Tetap dirender agar code tidak error, tapi tombol triggernya hilang buat Kepsek) -->
+    <!-- MODAL POPUP FORM -->
     @if($isOpen)
         <div class="fixed inset-0 z-[70] flex items-center justify-center p-4">
             <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-md" wire:click="$set('isOpen', false)"></div>

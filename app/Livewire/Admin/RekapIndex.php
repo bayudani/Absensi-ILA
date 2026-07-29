@@ -36,6 +36,7 @@ class RekapIndex extends Component
             $logs = Absensi::where('siswa_id', $siswa->id)
                 ->whereMonth('tanggal', $this->filter_bulan)
                 ->whereYear('tanggal', $this->filter_tahun)
+                ->with('jadwal.mapel')
                 ->get();
 
             $h = $logs->where('status', 'H')->count();
@@ -43,6 +44,14 @@ class RekapIndex extends Component
             $i = $logs->where('status', 'I')->count();
             $a = $logs->where('status', 'A')->count();
             $total = $logs->count();
+
+            $perMapel = $logs->groupBy(fn($item) => $item->jadwal->mapel->nama_mapel ?? 'Unknown')
+                ->map(fn($items) => [
+                    'h' => $items->where('status', 'H')->count(),
+                    's' => $items->where('status', 'S')->count(),
+                    'i' => $items->where('status', 'I')->count(),
+                    'a' => $items->where('status', 'A')->count(),
+                ]);
 
             return [
                 'nama' => $siswa->nama_lengkap,
@@ -52,7 +61,8 @@ class RekapIndex extends Component
                 's' => $s,
                 'i' => $i,
                 'a' => $a,
-                'persen' => $total > 0 ? round(($h / $total) * 100, 1) : 0
+                'persen' => $total > 0 ? round(($h / $total) * 100, 1) : 0,
+                'perMapel' => $perMapel,
             ];
         });
     }
@@ -67,8 +77,8 @@ class RekapIndex extends Component
 
         return response()->streamDownload(function () use ($data) {
             $file = fopen('php://output', 'w');
-            
-            // Tulis Header Kolom Excel
+            fwrite($file, "\xEF\xBB\xBF");
+            fwrite($file, "sep=,\n");
             fputcsv($file, ['Nama Siswa', 'NISN', 'Kelas', 'Hadir', 'Izin', 'Sakit', 'Alpha', 'Persentase Efektif (%)']);
 
             // Looping isi datanya

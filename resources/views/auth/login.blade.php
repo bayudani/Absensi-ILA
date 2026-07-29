@@ -87,7 +87,7 @@
         
         <!-- Support Info -->
         <div class="mt-8 text-center">
-            <p class="text-xs font-bold text-gray-400">Kesulitan masuk? Hubungi <a href="#" class="text-emerald-600 hover:underline">Admin TU</a></p>
+            <p class="text-xs font-bold text-gray-400">Kesulitan masuk? Hubungi <a href="https://wa.me/6287824678975" target="_blank" class="text-emerald-600 hover:underline">Admin TU</a></p>
         </div>
     </div>
 </x-guest-layout>

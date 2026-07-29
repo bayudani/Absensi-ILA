@@ -117,8 +117,8 @@ class RekapKelasIndex extends Component
 
         return response()->streamDownload(function () use ($data) {
             $file = fopen('php://output', 'w');
-            
-            // Tulis Header Kolom Excel
+            fwrite($file, "\xEF\xBB\xBF");
+            fwrite($file, "sep=,\n");
             fputcsv($file, ['Nama Siswa', 'NISN', 'Hadir', 'Izin', 'Sakit', 'Alpha', 'Persentase Efektif (%)']);
 
             // Looping isi datanya

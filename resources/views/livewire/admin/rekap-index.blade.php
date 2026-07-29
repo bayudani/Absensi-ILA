@@ -32,9 +32,11 @@
             }
             .print-text-black { color: black !important; }
             body { background-color: white !important; }
+            tr[x-show] { display: table-row !important; }
+            [x-cloak] { display: table-row !important; }
         }
+        [x-cloak] { display: none !important; }
     </style>
-
     <!-- Header & Filter Card (Dikasih class 'no-print' biar ga ikut ke-print) -->
     <div class="bg-white p-6 rounded-[2.5rem] border border-gray-100 shadow-sm no-print">
         <div class="flex flex-col lg:flex-row justify-between items-center gap-6">
@@ -124,6 +126,7 @@
             <table class="w-full text-left text-sm print-text-black">
                 <thead>
                     <tr class="bg-gray-50/50 text-gray-400 text-[10px] uppercase font-black tracking-[0.2em] border-b-2 border-gray-200">
+                        <th class="p-4 lg:p-6 w-10 no-print"></th>
                         <th class="p-4 lg:p-6 print-text-black">Data Siswa</th>
                         <th class="p-4 lg:p-6 print-text-black">Kelas</th>
                         <th class="p-4 lg:p-6 text-center text-green-600 bg-green-50/30 print-text-black">Hadir</th>
@@ -133,39 +136,76 @@
                         <th class="p-4 lg:p-6 text-center print-text-black">% Efektif</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100 font-sans">
-                    @forelse($daftarRekap as $rekap)
-                        <tr class="hover:bg-emerald-50/20 transition-colors group">
-                            <td class="p-4 lg:p-6">
-                                <div class="flex flex-col">
-                                    <span class="font-black text-gray-800 text-sm leading-none print-text-black">{{ $rekap['nama'] }}</span>
-                                    <span class="text-[10px] text-gray-400 font-mono mt-1.5 uppercase print-text-black">NISN: {{ $rekap['nisn'] }}</span>
-                                </div>
-                            </td>
-                            <td class="p-4 lg:p-6">
-                                <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg font-black text-[10px] uppercase print-text-black">
-                                    {{ $rekap['kelas'] }}
-                                </span>
-                            </td>
-                            <td class="p-4 lg:p-6 text-center font-black text-gray-700 print-text-black">{{ $rekap['h'] }}</td>
-                            <td class="p-4 lg:p-6 text-center font-black text-gray-700 print-text-black">{{ $rekap['i'] }}</td>
-                            <td class="p-4 lg:p-6 text-center font-black text-gray-700 print-text-black">{{ $rekap['s'] }}</td>
-                            <td class="p-4 lg:p-6 text-center font-black {{ $rekap['a'] > 0 ? 'text-red-600' : 'text-gray-700' }} print-text-black">
-                                {{ $rekap['a'] }}
-                            </td>
-                            <td class="p-4 lg:p-6 text-center">
-                                <span class="px-3 py-1 rounded-xl font-black text-xs print-text-black
-                                    {{ $rekap['persen'] >= 90 ? 'bg-green-100 text-green-700' : ($rekap['persen'] >= 75 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700') }}">
-                                    {{ $rekap['persen'] }}%
-                                </span>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" class="p-16 text-center text-gray-300 font-black uppercase text-xs tracking-widest no-print">Tidak ada data absensi untuk periode ini</td>
-                        </tr>
-                    @endforelse
+                @forelse($daftarRekap as $rekap)
+                <tbody class="border-b border-gray-100 last:border-0 font-sans" x-data="{ open: false }">
+                    <tr class="hover:bg-emerald-50/20 transition-colors group cursor-pointer" @click="open = !open">
+                        <td class="p-4 lg:p-6 text-center no-print">
+                            <i class="fas text-gray-400 transition-transform" :class="open ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+                        </td>
+                        <td class="p-4 lg:p-6">
+                            <div class="flex flex-col">
+                                <span class="font-black text-gray-800 text-sm leading-none print-text-black">{{ $rekap['nama'] }}</span>
+                                <span class="text-[10px] text-gray-400 font-mono mt-1.5 uppercase print-text-black">NISN: {{ $rekap['nisn'] }}</span>
+                            </div>
+                        </td>
+                        <td class="p-4 lg:p-6">
+                            <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg font-black text-[10px] uppercase print-text-black">
+                                {{ $rekap['kelas'] }}
+                            </span>
+                        </td>
+                        <td class="p-4 lg:p-6 text-center font-black text-gray-700 print-text-black">{{ $rekap['h'] }}</td>
+                        <td class="p-4 lg:p-6 text-center font-black text-gray-700 print-text-black">{{ $rekap['i'] }}</td>
+                        <td class="p-4 lg:p-6 text-center font-black text-gray-700 print-text-black">{{ $rekap['s'] }}</td>
+                        <td class="p-4 lg:p-6 text-center font-black {{ $rekap['a'] > 0 ? 'text-red-600' : 'text-gray-700' }} print-text-black">
+                            {{ $rekap['a'] }}
+                        </td>
+                        <td class="p-4 lg:p-6 text-center">
+                            <span class="px-3 py-1 rounded-xl font-black text-xs print-text-black
+                                {{ $rekap['persen'] >= 90 ? 'bg-green-100 text-green-700' : ($rekap['persen'] >= 75 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700') }}">
+                                {{ $rekap['persen'] }}%
+                            </span>
+                        </td>
+                    </tr>
+                    <tr x-show="open" x-cloak>
+                        <td colspan="8" class="p-0">
+                            <div class="px-6 lg:px-10 py-4 border-t border-gray-100">
+                                <table class="w-full text-xs">
+                                    <thead>
+                                        <tr class="text-gray-500 font-black uppercase tracking-widest text-[9px] border-b border-gray-200">
+                                            <th class="py-2 pr-4 text-left print-text-black">Mata Pelajaran</th>
+                                            <th class="py-2 px-3 text-center text-green-600 print-text-black">H</th>
+                                            <th class="py-2 px-3 text-center text-blue-600 print-text-black">I</th>
+                                            <th class="py-2 px-3 text-center text-yellow-600 print-text-black">S</th>
+                                            <th class="py-2 px-3 text-center text-red-600 print-text-black">A</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($rekap['perMapel'] as $mapel => $stat)
+                                        <tr class="border-b border-gray-50 last:border-0">
+                                            <td class="py-2.5 pr-4 font-bold text-gray-700 print-text-black">{{ $mapel }}</td>
+                                            <td class="py-2.5 px-3 text-center font-black text-green-700 print-text-black">{{ $stat['h'] }}</td>
+                                            <td class="py-2.5 px-3 text-center font-black text-blue-700 print-text-black">{{ $stat['i'] }}</td>
+                                            <td class="py-2.5 px-3 text-center font-black text-yellow-700 print-text-black">{{ $stat['s'] }}</td>
+                                            <td class="py-2.5 px-3 text-center font-black {{ $stat['a'] > 0 ? 'text-red-600' : 'text-gray-400' }} print-text-black">{{ $stat['a'] }}</td>
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="5" class="py-4 text-center text-gray-400 italic text-[11px] print-text-black">Belum ada data absensi untuk siswa ini pada periode tersebut</td>
+                                        </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
+                @empty
+                <tbody class="font-sans">
+                    <tr>
+                        <td colspan="8" class="p-16 text-center text-gray-300 font-black uppercase text-xs tracking-widest no-print">Tidak ada data absensi untuk periode ini</td>
+                    </tr>
+                </tbody>
+                @endforelse
             </table>
         </div>
 

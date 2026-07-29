@@ -91,8 +91,8 @@ class LaporanAbsensiIndex extends Component
 
         return response()->streamDownload(function () use ($rekapHarian, $jamPelajaran) {
             $file = fopen('php://output', 'w');
-            
-            // Header Dinamis Mapel
+            fwrite($file, "\xEF\xBB\xBF");
+            fwrite($file, "sep=,\n");
             $headers = ['Nama Siswa', 'NISN'];
             foreach ($jamPelajaran as $jam) {
                 $headers[] = $jam->jam_mulai . ' (' . ($jam->mapel->kode_mapel ?? '-') . ')';
@@ -145,6 +145,9 @@ class LaporanAbsensiIndex extends Component
 
         return response()->streamDownload(function () use ($rekapBulanan) {
             $file = fopen('php://output', 'w');
+            fwrite($file, "\xEF\xBB\xBF");
+            fwrite($file, "sep=,\n");
+
             fputcsv($file, ['Nama Siswa', 'NISN', 'Hadir', 'Izin', 'Sakit', 'Alpha', 'Persentase Efektif (%)']);
 
             foreach ($rekapBulanan as $row) {
