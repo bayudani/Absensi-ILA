@@ -9,7 +9,7 @@ class Kelas extends Model
     protected $table = 'kelas'; // Explicit table name karena bukan plural 'kelases'
     protected $guarded = [];
 
-    public function waliKelas()
+    public function waliKelas() //CONTOH : RELASI KE GURU (WALI KELAS)
     {
         return $this->belongsTo(Guru::class, 'wali_kelas_id');
     }

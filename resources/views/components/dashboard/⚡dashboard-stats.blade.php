@@ -18,6 +18,7 @@ new class extends Component {
     public function with(): array
     {
         $user = Auth::user();
+        
         $today = Carbon::today()->toDateString();
         $hariIni = Carbon::now()->translatedFormat('l');
         

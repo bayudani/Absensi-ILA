@@ -35,9 +35,9 @@ Route::middleware(['auth', 'role:admin,kepsek'])->prefix('admin')->name('admin.'
     Route::get('/guru', function() { return view('admin.guru.index'); })->name('guru.index');
     Route::get('/mapel', function() { return view('admin.mapel.index'); })->name('mapel.index');
     
-    // Administrasi & Akun
+    // Administrasi 
     Route::get('/jadwal', function() { return view('admin.jadwal.index'); })->name('jadwal.index');
-    Route::get('/user-management', function() { return view('admin.user.index'); })->name('user.index');
+    // Route::get('/user-management', function() { return view('admin.user.index'); })->name('user.index');
     
     // Laporan Global
     Route::get('/rekap-total', function() { return view('admin.rekap.index'); })->name('rekap');
@@ -87,16 +87,8 @@ Route::middleware(['auth', 'role:walas'])->prefix('walas')->name('walas.')->grou
     Route::get('/laporan-absensi', function() { return view('walas.rekap.index'); })->name('laporan');
 });
 
-/**
-|--------------------------------------------------------------------------
-| GROUP KEPALA SEKOLAH (Role: kepsek)
-|--------------------------------------------------------------------------
-*/
-Route::middleware(['auth', 'role:kepsek'])->prefix('kepsek')->name('kepsek.')->group(function () {
-    
-    // Monitoring kedisiplinan guru dan statistik sekolah
-    Route::get('/monitoring', function() { return view('kepsek.monitoring.index'); })->name('monitoring');
-});
+
+
 
 /**
 |--------------------------------------------------------------------------
